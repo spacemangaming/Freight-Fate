@@ -399,8 +399,8 @@ if "!new_ver!"=="" (
     goto menu
 )
 
-:: Update pyproject.toml using python regex
-call uv run python -c "import re; p = 'pyproject.toml'; txt = open(p, 'r', encoding='utf-8').read(); new_txt = re.sub(r'(?m)^(version\s*=\s*\")[^\"]*(\")', r'\g<1>!new_ver!\g<2>', txt); open(p, 'w', encoding='utf-8').write(new_txt)"
+:: Update pyproject.toml using python script
+call uv run python tools/set_version.py !new_ver!
 if %ERRORLEVEL% neq 0 (
     echo [ERROR] Failed to edit pyproject.toml.
     pause
@@ -426,7 +426,7 @@ if "!new_ver!"=="" (
     echo [ERROR] No version number specified.
     goto usage
 )
-call uv run python -c "import re; p = 'pyproject.toml'; txt = open(p, 'r', encoding='utf-8').read(); new_txt = re.sub(r'(?m)^(version\s*=\s*\")[^\"]*(\")', r'\g<1>%new_ver%\g<2>', txt); open(p, 'w', encoding='utf-8').write(new_txt)"
+call uv run python tools/set_version.py %new_ver%
 if %ERRORLEVEL% neq 0 exit /b %ERRORLEVEL%
 call uv sync
 exit /b %ERRORLEVEL%
