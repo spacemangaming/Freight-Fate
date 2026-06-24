@@ -1,0 +1,13 @@
+{
+    "key": "fuel_saver",
+    "label": "fuel saver",
+    "price": 45000.0,
+    "description": "An aerodynamic cruiser built for fuel efficiency and long highway runs. Reduced power but superb range.",
+    "specs": {
+        "mass_kg": 34000.0,
+        "drag_coefficient": 0.52,
+        "max_torque_nm": 2100.0,
+        "fuel_tank_gal": 160.0,
+        "fuel_burn_factor": 0.8
+    }
+}

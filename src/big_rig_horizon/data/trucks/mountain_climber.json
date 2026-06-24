@@ -1,0 +1,13 @@
+{
+    "key": "mountain_climber",
+    "label": "mountain climber",
+    "price": 68000.0,
+    "description": "Equipped with a massive high-displacement engine to climb steep grades with ease. Heavy fuel burn.",
+    "specs": {
+        "mass_kg": 39000.0,
+        "drag_coefficient": 0.78,
+        "max_torque_nm": 3600.0,
+        "fuel_tank_gal": 220.0,
+        "fuel_burn_factor": 1.4
+    }
+}

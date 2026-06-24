@@ -1,0 +1,13 @@
+{
+    "key": "road_train_king",
+    "label": "road train king",
+    "price": 85000.0,
+    "description": "A premium multi-axle powerhouse designed for the heaviest loads on the continent.",
+    "specs": {
+        "mass_kg": 42000.0,
+        "drag_coefficient": 0.82,
+        "max_torque_nm": 4000.0,
+        "fuel_tank_gal": 250.0,
+        "fuel_burn_factor": 1.6
+    }
+}

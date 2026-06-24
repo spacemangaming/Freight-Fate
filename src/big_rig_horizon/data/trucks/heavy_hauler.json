@@ -1,0 +1,13 @@
+{
+    "key": "heavy_hauler",
+    "label": "heavy hauler",
+    "price": 52000.0,
+    "description": "A brute: a quarter more torque and a two hundred gallon tank, but blunt aerodynamics and a thirstier engine.",
+    "specs": {
+        "mass_kg": 37500.0,
+        "drag_coefficient": 0.75,
+        "max_torque_nm": 3000.0,
+        "fuel_tank_gal": 200.0,
+        "fuel_burn_factor": 1.2
+    }
+}

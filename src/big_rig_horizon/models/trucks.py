@@ -8,6 +8,9 @@ driving simulation runs on.
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+import json
+import sys
+from pathlib import Path
 
 from ..sim.vehicle import TruckSpecs
 
@@ -27,19 +30,105 @@ class TruckModel:
     specs: TruckSpecs
 
 
-TRUCK_CATALOG: dict[str, TruckModel] = {
-    "rig": TruckModel(
-        "rig", "standard rig", 0.0,
-        "The dependable tractor you started with. Balanced all around.",
-        TruckSpecs()),
-    "heavy_hauler": TruckModel(
-        "heavy_hauler", "heavy hauler", 52_000.0,
-        "A brute: a quarter more torque and a two hundred gallon tank, but "
-        "blunt aerodynamics and a thirstier engine.",
-        TruckSpecs(max_torque_nm=3_000.0, fuel_tank_gal=200.0,
-                   drag_coefficient=0.75, fuel_burn_factor=1.2,
-                   mass_kg=37_500.0)),
-}
+def _get_hardcoded_defaults() -> dict[str, TruckModel]:
+    return {
+        "rig": TruckModel(
+            "rig", "standard rig", 0.0,
+            "The dependable tractor you started with. Balanced all around.",
+            TruckSpecs()),
+        "heavy_hauler": TruckModel(
+            "heavy_hauler", "heavy hauler", 52_000.0,
+            "A brute: a quarter more torque and a two hundred gallon tank, but "
+            "blunt aerodynamics and a thirstier engine.",
+            TruckSpecs(max_torque_nm=3_000.0, fuel_tank_gal=200.0,
+                       drag_coefficient=0.75, fuel_burn_factor=1.2,
+                       mass_kg=37_500.0)),
+        "fuel_saver": TruckModel(
+            "fuel_saver", "fuel saver", 45_000.0,
+            "An aerodynamic cruiser built for fuel efficiency and long highway runs. Reduced power but superb range.",
+            TruckSpecs(drag_coefficient=0.52, fuel_burn_factor=0.8,
+                       max_torque_nm=2_100.0, fuel_tank_gal=160.0,
+                       mass_kg=34_000.0)),
+        "mountain_climber": TruckModel(
+            "mountain_climber", "mountain climber", 68_000.0,
+            "Equipped with a massive high-displacement engine to climb steep grades with ease. Heavy fuel burn.",
+            TruckSpecs(max_torque_nm=3_600.0, fuel_burn_factor=1.4,
+                       drag_coefficient=0.78, fuel_tank_gal=220.0,
+                       mass_kg=39_000.0)),
+        "road_train_king": TruckModel(
+            "road_train_king", "road train king", 85_000.0,
+            "A premium multi-axle powerhouse designed for the heaviest loads on the continent.",
+            TruckSpecs(max_torque_nm=4_000.0, fuel_burn_factor=1.6,
+                       drag_coefficient=0.82, fuel_tank_gal=250.0,
+                       mass_kg=42_000.0)),
+    }
+
+
+class TruckCatalog(dict):
+    def __init__(self):
+        super().__init__()
+        self._loaded = False
+
+    def _ensure_loaded(self):
+        if not self._loaded:
+            self._loaded = True
+            catalog = {}
+            # Locate internal data folder
+            td = Path(__file__).resolve().parent.parent / "data" / "trucks"
+            if td.exists():
+                for file in td.glob("*.json"):
+                    try:
+                        with open(file, "r", encoding="utf-8") as f:
+                            data = json.load(f)
+                        key = data["key"]
+                        label = data["label"]
+                        price = float(data["price"])
+                        description = data["description"]
+                        
+                        specs_dict = data.get("specs", {})
+                        valid_fields = TruckSpecs.__dataclass_fields__.keys()
+                        filtered_specs = {k: v for k, v in specs_dict.items() if k in valid_fields}
+                        specs = TruckSpecs(**filtered_specs)
+                        
+                        catalog[key] = TruckModel(key, label, price, description, specs)
+                    except Exception as e:
+                        print(f"Error loading truck file {file}: {e}", file=sys.stderr)
+            
+            if not catalog:
+                catalog = _get_hardcoded_defaults()
+            self.clear()
+            self.update(catalog)
+
+    def __getitem__(self, key):
+        self._ensure_loaded()
+        return super().__getitem__(key)
+
+    def get(self, key, default=None):
+        self._ensure_loaded()
+        return super().get(key, default)
+
+    def values(self):
+        self._ensure_loaded()
+        return super().values()
+
+    def keys(self):
+        self._ensure_loaded()
+        return super().keys()
+
+    def items(self):
+        self._ensure_loaded()
+        return super().items()
+
+    def __contains__(self, key):
+        self._ensure_loaded()
+        return super().__contains__(key)
+
+    def __len__(self):
+        self._ensure_loaded()
+        return super().__len__()
+
+
+TRUCK_CATALOG = TruckCatalog()
 
 
 @dataclass(frozen=True)
