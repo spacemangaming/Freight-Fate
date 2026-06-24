@@ -17,7 +17,7 @@ jobs:
     env:
       SDL_VIDEODRIVER: dummy
       SDL_AUDIODRIVER: dummy
-      FREIGHT_FATE_NO_SPEECH: "1"
+      BIG_RIG_HORIZON_NO_SPEECH: "1"
     steps:
       - uses: actions/checkout@v6
 
@@ -33,7 +33,7 @@ jobs:
         run: uv run ruff check src tests tools
 
       - name: Run tests
-        run: uv run pytest tests/ -v --cov=src/freight_fate --cov-report=xml
+        run: uv run pytest tests/ -v --cov=src/big_rig_horizon --cov-report=xml
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v7

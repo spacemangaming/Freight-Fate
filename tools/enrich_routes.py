@@ -19,9 +19,9 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-WORLD_PATH = ROOT / "src" / "freight_fate" / "data" / "world.json"
+WORLD_PATH = ROOT / "src" / "big_rig_horizon" / "data" / "world.json"
 CACHE_PATH = ROOT / ".route-cache"
-USER_AGENT = "Freight-Fate route-enrichment smoke (https://github.com/Orinks/Freight-Fate)"
+USER_AGENT = "Freight-Fate route-enrichment smoke (https://github.com/spacemangaming/Freight-Fate)"
 OSRM_ROUTE_URL = "https://router.project-osrm.org/route/v1/driving/{coords}"
 OPEN_METEO_ELEVATION_URL = "https://api.open-meteo.com/v1/elevation"
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
@@ -266,7 +266,7 @@ def enrich_all_routes(
 def format_enrichment_result(result: dict[str, Any]) -> str:
     totals = result["coverage_totals"]
     lines = [
-        "Freight Fate route enrichment batch",
+        "Big Rig Horizon route enrichment batch",
         f"Processed legs: {result['processed']}",
         f"Already complete: {result['skipped_complete']}",
         f"Completed in this view: {result['enriched_or_completed']}",
@@ -991,7 +991,7 @@ def format_coverage_report(report: dict[str, Any]) -> str:
     totals = report["totals"]
     pct = report["percentages"]
     lines = [
-        "Freight Fate route metadata coverage",
+        "Big Rig Horizon route metadata coverage",
         f"Total legs: {totals['legs']}",
         f"Playable metadata-backed legs: {totals['playable']} "
         f"({pct.get('playable', 0.0):.1f}%)",

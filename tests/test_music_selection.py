@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from freight_fate.music import (
+from big_rig_horizon.music import (
     ALL_MUSIC_TRACKS,
     DAY_DRIVE_TRACKS,
     NIGHT_DRIVE_TRACKS,
@@ -13,11 +13,11 @@ from freight_fate.music import (
     select_menu_music_sequence,
 )
 
-ASSETS = Path(__file__).parents[1] / "src" / "freight_fate" / "assets" / "sounds"
+ASSETS = Path(__file__).parents[1] / "src" / "big_rig_horizon" / "assets" / "sounds"
 
 
 def _denver_to_salt_lake_job():
-    from freight_fate.models.jobs import CARGO_CATALOG, Job
+    from big_rig_horizon.models.jobs import CARGO_CATALOG, Job
 
     return Job(
         CARGO_CATALOG["food"],
@@ -32,7 +32,7 @@ def _denver_to_salt_lake_job():
 
 
 def test_menu_music_tracks_career_milestones():
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.models.profile import Profile
 
     rookie = Profile(name="Rookie")
     assert select_menu_music(rookie) == "menu_theme"
@@ -58,7 +58,7 @@ def test_menu_music_tracks_career_milestones():
 
 
 def test_menu_music_sequence_is_milestone_pool():
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.models.profile import Profile
 
     rookie = Profile(name="Rookie")
     rookie_pool = select_menu_music_sequence(rookie)
@@ -92,9 +92,9 @@ def test_drive_music_sequence_is_stable_pool_for_trip_and_separates_day_night(wo
 
 
 def test_city_menu_uses_milestone_music(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
 
     app = App()
     played = []
@@ -110,9 +110,9 @@ def test_city_menu_uses_milestone_music(monkeypatch):
 
 
 def test_main_menu_uses_latest_save_milestone_music(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     profile = Profile(name="Coast Runner", current_city="Denver")
     profile.career.total_miles = 10_000
@@ -130,9 +130,9 @@ def test_main_menu_uses_latest_save_milestone_music(monkeypatch):
 
 
 def test_menu_music_pool_advances_without_immediate_repeat(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
 
     app = App()
     played = []
@@ -151,9 +151,9 @@ def test_menu_music_pool_advances_without_immediate_repeat(monkeypatch):
 
 
 def test_menu_music_advances_when_bed_duration_ends(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
 
     app = App()
     played = []
@@ -175,9 +175,9 @@ def test_menu_music_advances_when_bed_duration_ends(monkeypatch):
 
 
 def test_menu_reload_refreshes_pool_without_restarting_current_bed(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
 
     app = App()
     played = []
@@ -202,9 +202,9 @@ def test_menu_reload_refreshes_pool_without_restarting_current_bed(monkeypatch):
 
 
 def test_menu_theme_rotates_after_its_duration(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
 
     app = App()
     played = []
@@ -222,9 +222,9 @@ def test_menu_theme_rotates_after_its_duration(monkeypatch):
 
 
 def test_pickup_facility_uses_music_pool_and_keeps_facility_ambience(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import PickupFacilityState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import PickupFacilityState
 
     app = App()
     played = []
@@ -249,9 +249,9 @@ def test_pickup_facility_uses_music_pool_and_keeps_facility_ambience(monkeypatch
 
 
 def test_destination_facility_uses_music_pool_and_keeps_facility_ambience(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState, FacilityArrivalState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState, FacilityArrivalState
 
     app = App()
     played = []
@@ -277,9 +277,9 @@ def test_destination_facility_uses_music_pool_and_keeps_facility_ambience(monkey
 
 
 def test_delivery_complete_keeps_current_music(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import ArrivalState, DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState
 
     app = App()
     played = []
@@ -304,9 +304,9 @@ def test_delivery_complete_keeps_current_music(monkeypatch):
 
 
 def test_driving_state_uses_selected_drive_music(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     played = []
@@ -331,10 +331,10 @@ def test_driving_state_uses_selected_drive_music(monkeypatch):
 
 
 def test_night_driving_advances_through_music_pool(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.music import music_track_duration_s
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.music import music_track_duration_s
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     played = []
@@ -363,9 +363,9 @@ def test_night_driving_advances_through_music_pool(monkeypatch):
 
 
 def test_open_road_rotates_in_day_driving_pool(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     played = []
@@ -390,9 +390,9 @@ def test_open_road_rotates_in_day_driving_pool(monkeypatch):
 
 
 def test_night_haul_rotates_in_night_driving_pool(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     played = []

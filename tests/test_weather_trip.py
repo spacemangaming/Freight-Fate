@@ -2,9 +2,9 @@
 
 import itertools
 
-from freight_fate.sim import Trip, TruckState, WeatherKind, WeatherSystem
-from freight_fate.sim.trip import NavigationCue, TrafficLead, TripEventKind
-from freight_fate.sim.weather import EFFECTS, REGION_WEIGHTS
+from big_rig_horizon.sim import Trip, TruckState, WeatherKind, WeatherSystem
+from big_rig_horizon.sim.trip import NavigationCue, TrafficLead, TripEventKind
+from big_rig_horizon.sim.weather import EFFECTS, REGION_WEIGHTS
 
 
 def test_all_conditions_have_effects():
@@ -308,7 +308,7 @@ def test_time_scale_compresses_fuel_burn(world):
 
 
 def test_every_weather_region_has_local_hazards():
-    from freight_fate.sim.trip import GENERIC_HAZARDS, REGION_HAZARDS, hazard_choices
+    from big_rig_horizon.sim.trip import GENERIC_HAZARDS, REGION_HAZARDS, hazard_choices
 
     for region in REGION_WEIGHTS:
         assert region in REGION_HAZARDS, f"no local hazards for {region}"

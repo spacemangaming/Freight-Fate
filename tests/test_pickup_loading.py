@@ -8,8 +8,8 @@ def key_event(key, unicode=""):
 
 
 def accept_pickup_drive(app):
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app.push_state(MainMenuState(app.ctx))
     while app.state.items[app.state.index].text != "New career":
@@ -28,7 +28,7 @@ def accept_pickup_drive(app):
 
 
 def arrive_at_pickup(app, speed_mps: float = 0.0):
-    from freight_fate.states.city import PickupFacilityState
+    from big_rig_horizon.states.city import PickupFacilityState
 
     driving = app.state
     driving.trip.position_mi = driving.trip.total_miles
@@ -42,9 +42,9 @@ def arrive_at_pickup(app, speed_mps: float = 0.0):
 
 
 def test_accepting_job_starts_drivable_pickup_leg():
-    from freight_fate.app import App
-    from freight_fate.states.city import PickupFacilityState
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import PickupFacilityState
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     spoken = []
@@ -72,9 +72,9 @@ def test_accepting_job_starts_drivable_pickup_leg():
 
 
 def test_dispatch_board_stays_stable_when_reopened():
-    from freight_fate.app import App
-    from freight_fate.states.city import CityMenuState, JobBoardState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import CityMenuState, JobBoardState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app = App()
     try:
@@ -115,9 +115,9 @@ def test_facility_approach_route_has_real_mileage_and_label(world):
 
 
 def test_pickup_facility_waits_for_full_stop(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.city import PickupFacilityState
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import PickupFacilityState
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     events = []
@@ -149,7 +149,7 @@ def test_pickup_facility_waits_for_full_stop(monkeypatch):
 
 
 def test_loading_at_pickup_uses_dock_sound(monkeypatch):
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     played = []
@@ -168,8 +168,8 @@ def test_loading_at_pickup_uses_dock_sound(monkeypatch):
 
 
 def test_save_resume_during_pickup_drive():
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState, PauseMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState, PauseMenuState
 
     app = App()
     try:
@@ -197,8 +197,8 @@ def test_save_resume_during_pickup_drive():
 
 
 def test_pickup_arrival_state_and_loaded_planning_resume():
-    from freight_fate.app import App
-    from freight_fate.states.city import PickupFacilityState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import PickupFacilityState
 
     app = App()
     try:
@@ -234,8 +234,8 @@ def test_pickup_arrival_state_and_loaded_planning_resume():
         assert app.state.items[app.state.index].text == "Depart for destination"
 
         app.state.handle_event(key_event(pygame.K_RETURN))
-        from freight_fate.states.city import RouteSelectState
-        from freight_fate.states.driving import DrivingState
+        from big_rig_horizon.states.city import RouteSelectState
+        from big_rig_horizon.states.driving import DrivingState
 
         assert isinstance(app.state, RouteSelectState)
         app.state.handle_event(key_event(pygame.K_RETURN))
@@ -245,7 +245,7 @@ def test_pickup_arrival_state_and_loaded_planning_resume():
 
 
 def test_job_board_help_names_drivable_pickup_before_route_planning():
-    from freight_fate.states.city import JobBoardState
+    from big_rig_horizon.states.city import JobBoardState
 
     assert "local deadhead pickup drive from your terminal" in JobBoardState.intro_help
     assert "route planning" not in JobBoardState.intro_help

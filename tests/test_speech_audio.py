@@ -2,8 +2,8 @@
 
 from dataclasses import dataclass, field
 
-from freight_fate.audio import ASSETS, AudioEngine
-from freight_fate.speech import Speech, pick_backend, pick_event_backend
+from big_rig_horizon.audio import ASSETS, AudioEngine
+from big_rig_horizon.speech import Speech, pick_backend, pick_event_backend
 
 
 @dataclass
@@ -172,7 +172,7 @@ def test_all_referenced_assets_exist():
     import re
     from pathlib import Path
 
-    src = Path(__file__).parents[1] / "src" / "freight_fate"
+    src = Path(__file__).parents[1] / "src" / "big_rig_horizon"
     pattern = re.compile(
         r"""["']((?:ui|engine|vehicle|weather|ambient|driver|events|facility|poi)/[a-z_]+)["']""")
     keys: set[str] = set()
@@ -187,7 +187,7 @@ def test_all_referenced_assets_exist():
 
 
 def test_music_tracks_exist():
-    from freight_fate.music import ALL_MUSIC_TRACKS
+    from big_rig_horizon.music import ALL_MUSIC_TRACKS
 
     for track in (track.key for track in ALL_MUSIC_TRACKS):
         assert (ASSETS / "music" / f"{track}.ogg").exists(), track

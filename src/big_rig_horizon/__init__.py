@@ -1,4 +1,4 @@
-"""Freight Fate: an accessible, audio-first trucking simulation."""
+"""Big Rig Horizon: an accessible, audio-first trucking simulation."""
 
 from __future__ import annotations
 
@@ -20,6 +20,6 @@ def _read_pyproject_version() -> str:
 
 
 try:
-    __version__ = metadata.version("freight-fate")
+    __version__ = metadata.version("big-rig-horizon")
 except metadata.PackageNotFoundError:
     __version__ = _read_pyproject_version()

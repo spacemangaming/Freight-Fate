@@ -11,7 +11,7 @@ def key_event(key, unicode=""):
 
 def open_picker(app, name=""):
     """Drive a new career up to the home terminal picker."""
-    from freight_fate.states.main_menu import HomeTerminalState, MainMenuState
+    from big_rig_horizon.states.main_menu import HomeTerminalState, MainMenuState
 
     app.push_state(MainMenuState(app.ctx))
     while app.state.items[app.state.index].text != "New career":
@@ -25,8 +25,8 @@ def open_picker(app, name=""):
 
 
 def test_picker_lists_every_city_with_region_and_defaults_to_chicago(world):
-    from freight_fate.app import App
-    from freight_fate.states.main_menu import REGION_LABELS
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.main_menu import REGION_LABELS
 
     app = App()
     try:
@@ -41,9 +41,9 @@ def test_picker_lists_every_city_with_region_and_defaults_to_chicago(world):
 
 
 def test_picking_a_city_sets_the_profile_start_city():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
 
     app = App()
     ambient = []
@@ -69,8 +69,8 @@ def test_picking_a_city_sets_the_profile_start_city():
 
 
 def test_escape_returns_to_name_entry_keeping_the_typed_name():
-    from freight_fate.app import App
-    from freight_fate.states.main_menu import NameEntryState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.main_menu import NameEntryState
 
     app = App()
     try:
@@ -84,9 +84,9 @@ def test_escape_returns_to_name_entry_keeping_the_typed_name():
 
 
 def test_existing_profiles_never_see_the_picker():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app = App()
     try:
@@ -103,9 +103,9 @@ def test_existing_profiles_never_see_the_picker():
 def test_tampered_save_is_spoken_and_omitted_from_main_menu(monkeypatch):
     import json
 
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     good = Profile(name="Honest", current_city="Denver")
     good.save()
@@ -130,7 +130,7 @@ def test_tampered_save_is_spoken_and_omitted_from_main_menu(monkeypatch):
 
 
 def test_how_to_play_mentions_corrupted_save_recovery_without_prominent_page():
-    from freight_fate.states.main_menu import HELP_PAGES
+    from big_rig_horizon.states.main_menu import HELP_PAGES
 
     titles = [title for title, _lines in HELP_PAGES]
     help_text = " ".join(line for _title, lines in HELP_PAGES for line in lines).lower()
@@ -142,10 +142,10 @@ def test_how_to_play_mentions_corrupted_save_recovery_without_prominent_page():
 
 
 def test_choose_career_loads_an_older_save_without_deleting_the_newest():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
-    from freight_fate.states.main_menu import LoadDriverState, MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
+    from big_rig_horizon.states.main_menu import LoadDriverState, MainMenuState
 
     app = App()
     try:
@@ -188,10 +188,10 @@ def test_choose_career_loads_an_older_save_without_deleting_the_newest():
 
 
 def test_manage_careers_deletes_selected_save_without_touching_others():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.music import music_track_duration_s
-    from freight_fate.states.main_menu import (
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.music import music_track_duration_s
+    from big_rig_horizon.states.main_menu import (
         CareerActionsState,
         ConfirmCareerActionState,
         MainMenuState,
@@ -242,9 +242,9 @@ def test_manage_careers_deletes_selected_save_without_touching_others():
 
 
 def test_manage_careers_resets_selected_save_to_fresh_profile(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import STARTING_MONEY, Profile
-    from freight_fate.states.main_menu import (
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import STARTING_MONEY, Profile
+    from big_rig_horizon.states.main_menu import (
         ConfirmCareerActionState,
         MainMenuState,
         ManageCareersState,

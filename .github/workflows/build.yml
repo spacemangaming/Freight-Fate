@@ -123,14 +123,14 @@ jobs:
         env:
           SDL_VIDEODRIVER: dummy
           SDL_AUDIODRIVER: dummy
-          FREIGHT_FATE_NO_SPEECH: "1"
+          BIG_RIG_HORIZON_NO_SPEECH: "1"
         run: uv run pytest -q
 
       - name: Build
         env:
           SDL_VIDEODRIVER: dummy
           SDL_AUDIODRIVER: dummy
-          FREIGHT_FATE_NO_SPEECH: "1"
+          BIG_RIG_HORIZON_NO_SPEECH: "1"
         run: >
           uv run python tools/build_release.py
           --tag "${{ needs.prepare.outputs.is_nightly == 'true' && needs.prepare.outputs.tag || needs.prepare.outputs.version }}"
@@ -139,8 +139,8 @@ jobs:
         with:
           name: ${{ matrix.label }}
           path: |
-            dist/FreightFate-*.zip
-            dist/FreightFate-*.tar.gz
+            dist/BigRigHorizon-*.zip
+            dist/BigRigHorizon-*.tar.gz
 
   release:
     name: Release
@@ -198,9 +198,9 @@ jobs:
           else
             if gh release view "$TAG" &>/dev/null; then
               gh release upload "$TAG" assets/* --clobber
-              gh release edit "$TAG" --notes-file notes.md --title "Freight Fate v${VERSION}"
+              gh release edit "$TAG" --notes-file notes.md --title "Big Rig Horizon v${VERSION}"
             else
               gh release create "$TAG" assets/* --notes-file notes.md \
-                --title "Freight Fate v${VERSION}"
+                --title "Big Rig Horizon v${VERSION}"
             fi
           fi

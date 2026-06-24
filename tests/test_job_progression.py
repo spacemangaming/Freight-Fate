@@ -2,7 +2,7 @@
 
 import pytest
 
-from freight_fate.models.jobs import (
+from big_rig_horizon.models.jobs import (
     FACILITY_CARGO,
     LEVEL_DISTANCE_CAPS,
     LONG_HAUL_MILES,

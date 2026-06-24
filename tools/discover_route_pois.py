@@ -17,14 +17,14 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-WORLD_PATH = ROOT / "src" / "freight_fate" / "data" / "world.json"
+WORLD_PATH = ROOT / "src" / "big_rig_horizon" / "data" / "world.json"
 OVERPASS_URL = "https://overpass-api.de/api/interpreter"
-USER_AGENT = "Freight-Fate route POI curation smoke (https://github.com/Orinks/Freight-Fate)"
+USER_AGENT = "Freight-Fate route POI curation smoke (https://github.com/spacemangaming/Freight-Fate)"
 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Query Overpass for truck-relevant POIs near a Freight Fate corridor."
+        description="Query Overpass for truck-relevant POIs near a Big Rig Horizon corridor."
     )
     parser.add_argument("--from-city")
     parser.add_argument("--to-city")

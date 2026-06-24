@@ -1,10 +1,10 @@
-# Freight Fate
+# Big Rig Horizon
 
 An accessible, audio-first cross-country trucking simulation. Haul freight
 between more than 45 American cities, manage fuel, tolls, weather, and
 deadlines, and build a driving career entirely by ear.
 
-Freight Fate is designed for blind and low-vision players first: every screen
+Big Rig Horizon is designed for blind and low-vision players first: every screen
 is fully voiced through your screen reader (NVDA, JAWS, SAPI, VoiceOver,
 Speech Dispatcher, and more via [Prism](https://pypi.org/project/prismatoid/)),
 and the road speaks to you through a rich procedural soundscape. A simple
@@ -61,7 +61,7 @@ visual display mirrors all speech for sighted players and helpers.
 ## Download and play
 
 The easiest way to play is a prebuilt portable build from the
-[releases page](https://github.com/Orinks/Freight-fate/releases):
+[releases page](https://github.com/spacemangaming/Freight-Fate/releases):
 
 - **Stable releases** (`v1.6.0` and so on) are the finished, numbered
   versions — pick the latest one.
@@ -71,8 +71,8 @@ The easiest way to play is a prebuilt portable build from the
   on an older stable release, so treat nightly saves as one-way.
 
 Download the archive for your platform, extract it anywhere, and run the
-game from the extracted `FreightFate` folder — `FreightFate.exe` on
-Windows, `FreightFate` on macOS and Linux. There is nothing to install,
+game from the extracted `BigRigHorizon` folder — `BigRigHorizon.exe` on
+Windows, `BigRigHorizon` on macOS and Linux. There is nothing to install,
 and the game is truly portable: your saves and settings live in a `saves`
 folder inside the game folder, so you can move or copy the whole folder
 (USB stick included) and your career travels with it. The game checks for
@@ -109,10 +109,10 @@ You need two tools installed and on your PATH:
   almost always why.
 
 ```bash
-git clone https://github.com/Orinks/Freight-fate.git
-cd Freight-fate
+git clone https://github.com/spacemangaming/Freight-Fate.git
+cd big-rig-horizon
 uv sync
-uv run freight-fate
+uv run big-rig-horizon
 ```
 
 On Linux you also need SDL and Speech Dispatcher packages from your
@@ -131,8 +131,8 @@ uv sync --group build
 uv run python tools/build_release.py
 ```
 
-This freezes the game into `dist/FreightFate/`, boots it once as a smoke
-check, and archives it as `dist/FreightFate-<version>-windows-portable.zip`
+This freezes the game into `dist/BigRigHorizon/`, boots it once as a smoke
+check, and archives it as `dist/BigRigHorizon-<version>-windows-portable.zip`
 (or `-macos.zip` / `-linux-x64.tar.gz`). Useful flags:
 
 - `--skip-smoke` — skip booting the frozen build (for cross-checking on
@@ -183,7 +183,7 @@ the file from quarantine.
 
 ### Air-brake model
 
-Freight Fate models air pressure without asking players to run a full CDL
+Big Rig Horizon models air pressure without asking players to run a full CDL
 inspection before every dispatch. A cold trip starts with low pressure and
 the parking brake set. Start the engine, wait for the compressor to build
 air to 100 psi, then press `P` to release the parking brake. Repeated brake
@@ -227,19 +227,19 @@ intentional snapshot refresh. Use `changelog: none` or `[skip changelog]` only
 when every commit in the change set is non-user-facing.
 
 Bundled audio assets ship as Ogg Vorbis files under
-`src/freight_fate/assets/sounds/` — see
-[CREDITS.md](src/freight_fate/assets/sounds/CREDITS.md) for provenance and
+`src/big_rig_horizon/assets/sounds/` — see
+[CREDITS.md](src/big_rig_horizon/assets/sounds/CREDITS.md) for provenance and
 licensing.
 
 ## License
 
 Code is [MIT](LICENSE). Bundled audio credits and licensing notes are tracked in
-[CREDITS.md](src/freight_fate/assets/sounds/CREDITS.md).
+[CREDITS.md](src/big_rig_horizon/assets/sounds/CREDITS.md).
 
 **BASS license caveat:** audio playback uses the
 [BASS](https://www.un4seen.com/) library (through the `sound_lib` Python
 package), which is proprietary and **free for non-commercial use only**. If
-Freight Fate is ever sold commercially (Steam, itch.io paid downloads, and
+Big Rig Horizon is ever sold commercially (Steam, itch.io paid downloads, and
 so on), a paid license must be purchased from
 [un4seen developments](https://www.un4seen.com/bass.html#license) first.
 The game falls back to pygame.mixer automatically when BASS is unavailable.

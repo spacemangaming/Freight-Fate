@@ -5,8 +5,8 @@ import json
 import pygame
 import pytest
 
-from freight_fate.sim import hos
-from freight_fate.sim.hos import (
+from big_rig_horizon.sim import hos
+from big_rig_horizon.sim.hos import (
     LIMITS,
     HosClock,
     clock_text,
@@ -206,7 +206,7 @@ def test_clock_from_garbage_is_fresh():
 
 
 def test_v2_profile_loads_with_fresh_clock_and_no_fatigue():
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.models.profile import Profile
 
     p = Profile(name="V2 Driver")
     data = p.to_dict()
@@ -222,7 +222,7 @@ def test_v2_profile_loads_with_fresh_clock_and_no_fatigue():
 
 
 def test_profile_persists_hos_and_fatigue():
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.models.profile import Profile
 
     p = Profile(name="Tired Driver")
     p.hos.drive(345)
@@ -261,7 +261,7 @@ def test_clock_text_minute_rounding_carries_the_hour():
 
 
 def make_trip(world, start_hour, seed=2, start="Atlanta", end="Dallas"):
-    from freight_fate.sim import Trip, TruckState, WeatherSystem
+    from big_rig_horizon.sim import Trip, TruckState, WeatherSystem
 
     route = world.route_options(start, end)[0]
     truck = TruckState()
@@ -355,9 +355,9 @@ def test_parking_fills_more_often_later_in_the_evening():
 
 def start_drive(app):
     """New career, accept an unlocked job, pick a route; returns DrivingState."""
-    from freight_fate.states.city import PickupFacilityState, RouteSelectState
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.states.city import PickupFacilityState, RouteSelectState
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app.push_state(MainMenuState(app.ctx))
     while app.state.items[app.state.index].text != "New career":
@@ -414,8 +414,8 @@ def park_away_from_stops(driving, *, after_stop) -> None:
 
 @pytest.mark.smoke
 def test_fatigued_driver_gets_a_shorter_hazard_window():
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind
 
     app = App()
     try:
@@ -433,8 +433,8 @@ def test_fatigued_driver_gets_a_shorter_hazard_window():
 
 @pytest.mark.smoke
 def test_rest_stop_menu_break_and_sleep():
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState, RestStopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState, RestStopState
 
     app = App()
     try:
@@ -468,8 +468,8 @@ def test_rest_stop_menu_break_and_sleep():
 
 @pytest.mark.smoke
 def test_full_parking_offers_drive_on_and_shoulder(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import (
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import (
         DrivingState,
         ParkingFullState,
         ShoulderSleepConfirmationState,
@@ -482,11 +482,11 @@ def test_full_parking_offers_drive_on_and_shoulder(monkeypatch):
     try:
         driving = start_drive(app)
         park_at_first_stop(driving)
-        monkeypatch.setattr("freight_fate.sim.hos.parking_is_full",
+        monkeypatch.setattr("big_rig_horizon.sim.hos.parking_is_full",
                             lambda *a, **k: True)
-        monkeypatch.setattr("freight_fate.sim.hos.shoulder_fine_due",
+        monkeypatch.setattr("big_rig_horizon.sim.hos.shoulder_fine_due",
                             lambda *a, **k: True)
-        monkeypatch.setattr("freight_fate.sim.hos.shoulder_damage_due",
+        monkeypatch.setattr("big_rig_horizon.sim.hos.shoulder_damage_due",
                             lambda *a, **k: True)
         driving.handle_event(key_event(pygame.K_t))
         assert isinstance(app.state, ParkingFullState)
@@ -520,8 +520,8 @@ def test_full_parking_offers_drive_on_and_shoulder(monkeypatch):
 
 @pytest.mark.smoke
 def test_emergency_shoulder_sleep_pause_menu_constraints(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import PauseMenuState, ShoulderSleepConfirmationState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import PauseMenuState, ShoulderSleepConfirmationState
 
     app = App()
     spoken = []
@@ -557,8 +557,8 @@ def test_emergency_shoulder_sleep_pause_menu_constraints(monkeypatch):
 
 @pytest.mark.smoke
 def test_hos_off_still_allows_fatigue_emergency_shoulder_sleep(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import PauseMenuState, ShoulderSleepConfirmationState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import PauseMenuState, ShoulderSleepConfirmationState
 
     app = App()
     spoken = []
@@ -594,8 +594,8 @@ def test_hos_off_still_allows_fatigue_emergency_shoulder_sleep(monkeypatch):
 
 @pytest.mark.smoke
 def test_parking_never_full_during_the_day():
-    from freight_fate.app import App
-    from freight_fate.states.driving import RestStopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import RestStopState
 
     app = App()
     try:
@@ -612,9 +612,9 @@ def test_parking_never_full_during_the_day():
 def test_city_sleep_resets_hours_and_advances_the_clock():
     """A spent duty window used to follow you into the city with no way to
     sleep it off short of driving (illegally) to a rest stop."""
-    from freight_fate.app import App
-    from freight_fate.states.city import CityMenuState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import CityMenuState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app = App()
     try:
@@ -640,8 +640,8 @@ def test_city_sleep_resets_hours_and_advances_the_clock():
 
 @pytest.mark.smoke
 def test_snapshot_roundtrip_preserves_hos_fatigue_and_fines():
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     try:
@@ -665,10 +665,10 @@ def test_snapshot_roundtrip_preserves_hos_fatigue_and_fines():
 
 def test_pre_1_5_snapshot_resumes_with_fresh_clock():
     """A 1.2-1.4 era snapshot (no HOS keys) must load with defaults."""
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import enter_world
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import enter_world
 
     app = App()
     try:
@@ -695,7 +695,7 @@ def test_pre_1_5_snapshot_resumes_with_fresh_clock():
 
 @pytest.mark.smoke
 def test_inspections_fire_only_in_violation(world):
-    from freight_fate.sim.trip import TripEventKind
+    from big_rig_horizon.sim.trip import TripEventKind
 
     def run_trip(violating):
         trip = make_trip(world, start_hour=12.0, seed=5,
@@ -719,8 +719,8 @@ def test_inspections_fire_only_in_violation(world):
 
 @pytest.mark.smoke
 def test_inspection_fines_escalate_and_hit_reputation():
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind
 
     app = App()
     try:
@@ -739,7 +739,7 @@ def test_inspection_fines_escalate_and_hit_reputation():
 
 
 def test_route_backed_weigh_station_emits_evidence(world):
-    from freight_fate.sim.trip import RoadStop, TripEventKind
+    from big_rig_horizon.sim.trip import RoadStop, TripEventKind
 
     trip = make_trip(world, start_hour=12.0, seed=5,
                      start="Chicago", end="Indianapolis")
@@ -760,8 +760,8 @@ def test_route_backed_weigh_station_emits_evidence(world):
 
 @pytest.mark.smoke
 def test_serious_hos_inspection_orders_out_of_service_reset():
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind
 
     app = App()
     try:
@@ -792,7 +792,7 @@ def test_serious_hos_inspection_orders_out_of_service_reset():
 
 @pytest.mark.smoke
 def test_hos_clock_runs_on_game_time():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -809,8 +809,8 @@ def test_hos_clock_runs_on_game_time():
 
 @pytest.mark.smoke
 def test_settings_menu_cycles_hours_of_service():
-    from freight_fate.app import App
-    from freight_fate.states.main_menu import SettingsState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.main_menu import SettingsState
 
     app = App()
     try:
@@ -830,9 +830,9 @@ def test_settings_menu_cycles_hours_of_service():
 
 
 def test_settings_menu_saves_each_change():
-    from freight_fate.app import App
-    from freight_fate.settings import Settings
-    from freight_fate.states.main_menu import SettingsState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.settings import Settings
+    from big_rig_horizon.states.main_menu import SettingsState
 
     app = App()
     try:
@@ -849,9 +849,9 @@ def test_settings_menu_saves_each_change():
 
 
 def test_settings_menu_volume_survives_new_app_session():
-    from freight_fate.app import App
-    from freight_fate.settings import Settings
-    from freight_fate.states.main_menu import SettingsState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.settings import Settings
+    from big_rig_horizon.states.main_menu import SettingsState
 
     app = App()
     try:
@@ -886,8 +886,8 @@ def test_settings_menu_volume_survives_new_app_session():
 
 
 def test_settings_menu_f1_has_help_for_every_item():
-    from freight_fate.app import App
-    from freight_fate.states.main_menu import SettingsState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.main_menu import SettingsState
 
     app = App()
     try:
@@ -906,8 +906,8 @@ def test_settings_menu_f1_has_help_for_every_item():
 
 
 def test_settings_menu_pages_like_status_panel():
-    from freight_fate.app import App
-    from freight_fate.states.main_menu import SettingsState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.main_menu import SettingsState
 
     app = App()
     try:

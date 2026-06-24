@@ -1,11 +1,11 @@
-"""Build a standalone Freight Fate distribution.
+"""Build a standalone Big Rig Horizon distribution.
 
 Produces a standalone build (fast startup, antivirus-friendly) and
 archives it for release:
 
-* Windows: ``dist/FreightFate-<label>-windows-portable.zip``
-* Linux:   ``dist/FreightFate-<label>-linux-x64.tar.gz``
-* macOS:   ``dist/FreightFate-<label>-macos.zip``
+* Windows: ``dist/BigRigHorizon-<label>-windows-portable.zip``
+* Linux:   ``dist/BigRigHorizon-<label>-linux-x64.tar.gz``
+* macOS:   ``dist/BigRigHorizon-<label>-macos.zip``
 
 ``<label>`` is the project version from pyproject.toml, or the value of
 ``--tag`` (used for nightly developer snapshots). Builds use Nuitka on all
@@ -35,9 +35,9 @@ import tomllib
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist"
 BUILD = ROOT / "build"
-APP_NAME = "FreightFate"
+APP_NAME = "BigRigHorizon"
 SRC_DIR = ROOT / "src"
-PACKAGE_DIR = SRC_DIR / "freight_fate"
+PACKAGE_DIR = SRC_DIR / "big_rig_horizon"
 SOUND_LIB_NATIVE_EXTS = {".dll", ".dylib", ".so"}
 SOUND_LIB_ARCH_DIR = "x64"
 PRISM_NATIVE_EXTS = {".dll", ".dylib", ".so"}
@@ -64,7 +64,7 @@ def write_entrypoint() -> Path:
     entry = ROOT / "tools" / "_entry.py"
     entry.write_text(
         "import sys\n\n"
-        "from freight_fate.app import main\n\n"
+        "from big_rig_horizon.app import main\n\n"
         'if __name__ == "__main__":\n'
         "    sys.exit(main())\n",
         encoding="utf-8",
@@ -188,8 +188,8 @@ def build_nuitka_command(entry: Path) -> list[str]:
         "--noinclude-pytest-mode=nofollow",
         "--include-package-data=prism:_native/*",
         "--include-package-data=sound_lib",
-        f"--include-data-dir={repo_path(PACKAGE_DIR / 'assets')}=freight_fate/assets",
-        f"--include-data-dir={repo_path(PACKAGE_DIR / 'data')}=freight_fate/data",
+        f"--include-data-dir={repo_path(PACKAGE_DIR / 'assets')}=big_rig_horizon/assets",
+        f"--include-data-dir={repo_path(PACKAGE_DIR / 'data')}=big_rig_horizon/data",
         f"--output-dir={output_dir.as_posix()}",
         f"--output-filename={APP_NAME}",
         f"--product-name={APP_NAME}",
@@ -248,8 +248,8 @@ def verify_packaged_payload(build_dir: Path) -> None:
     root = runtime_root(build_dir)
 
     required = [
-        root / "freight_fate" / "assets" / "sounds",
-        root / "freight_fate" / "data" / "world.json",
+        root / "big_rig_horizon" / "assets" / "sounds",
+        root / "big_rig_horizon" / "data" / "world.json",
         root / "sound_lib" / "lib",
         root / "prism" / "_native",
     ]
@@ -311,7 +311,7 @@ def smoke_check(build_dir: Path) -> None:
         **os.environ,
         "SDL_VIDEODRIVER": "dummy",
         "SDL_AUDIODRIVER": "dummy",
-        "FREIGHT_FATE_NO_SPEECH": "1",
+        "BIG_RIG_HORIZON_NO_SPEECH": "1",
     }
     subprocess.run([str(exe), "--smoke"], check=True, cwd=exe.parent, env=env, timeout=120)
     print("Smoke check passed: the frozen build boots and renders.")

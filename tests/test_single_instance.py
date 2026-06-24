@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import ctypes
 
-from freight_fate.single_instance import (
+from big_rig_horizon.single_instance import (
     ERROR_ALREADY_EXISTS,
     SINGLE_INSTANCE_MUTEX_NAME,
     SingleInstanceGuard,

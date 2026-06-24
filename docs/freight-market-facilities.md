@@ -1,6 +1,6 @@
 # Freight Market And Facility Data
 
-Freight Fate models cities as metro freight markets. The highway graph remains
+Big Rig Horizon models cities as metro freight markets. The highway graph remains
 the routeable set of supported metro nodes, while each metro expands into
 origin and destination facilities: terminals, ports, intermodal ramps,
 warehouses, food facilities, plants, yards, and other trucking locations.

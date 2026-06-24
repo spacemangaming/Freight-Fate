@@ -1,12 +1,12 @@
 """Truck catalog, garage upgrades, and their effects on the physics model."""
 
-from freight_fate.models.profile import Profile
-from freight_fate.models.trucks import (
+from big_rig_horizon.models.profile import Profile
+from big_rig_horizon.models.trucks import (
     TRUCK_CATALOG,
     UPGRADE_CATALOG,
     build_truck_specs,
 )
-from freight_fate.sim.vehicle import TruckSpecs, TruckState
+from big_rig_horizon.sim.vehicle import TruckSpecs, TruckState
 
 
 def drive(truck: TruckState, seconds: float, dt: float = 1 / 60) -> None:

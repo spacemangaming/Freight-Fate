@@ -1,11 +1,11 @@
 # Route, Stop, And Corridor Data
 
-Freight Fate keeps route amenities and corridor metadata in static JSON so the
+Big Rig Horizon keeps route amenities and corridor metadata in static JSON so the
 game remains playable offline. Runtime driving does not call OpenStreetMap,
 OSRM, Overpass, paid truck routing APIs, Census services, or operator sites.
 External sources are build-time inputs only.
 
-The product goal is the full existing Freight Fate network, not a smaller map.
+The product goal is the full existing Big Rig Horizon network, not a smaller map.
 New dispatchable freight is gated to routes whose legs have complete metadata;
 the job board must not silently invent route conditions. The route-geometry
 layer now covers all 106 current legs with checked-in route points, elevation
@@ -26,7 +26,7 @@ transponder/settlement accounting, not as a manual stop at every gantry.
 ## Schema
 
 Route stops and corridor details live on a leg in
-`src/freight_fate/data/world.json`:
+`src/big_rig_horizon/data/world.json`:
 
 ```json
 {

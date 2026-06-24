@@ -1,13 +1,13 @@
 # Sound and Music Credits
 
 Sound effects in this directory come from a few sources, documented per file in
-the tables below: original effects created for Freight Fate (no third-party
+the tables below: original effects created for Big Rig Horizon (no third-party
 recordings or samples), donated in-cab truck recordings from Darren Duff used
 for selected vehicle cues, and weather and road loops produced with ElevenLabs
 sound effects tooling. The main menu, Open Road, and Night Haul themes are Suno
 remakes created by the project owner.
 
-The default sound_lib weather loops were generated for Freight Fate with
+The default sound_lib weather loops were generated for Big Rig Horizon with
 ElevenLabs sound effects tooling, then reviewed and selected for the in-cab
 weather mix.
 

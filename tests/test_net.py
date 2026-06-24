@@ -4,7 +4,7 @@ import socket
 import ssl
 import urllib.error
 
-from freight_fate import net
+from big_rig_horizon import net
 
 
 def test_ssl_context_verifies_and_has_certifi_authorities():
@@ -40,6 +40,6 @@ def test_describe_error_common_failures():
 
 
 def test_describe_error_falls_back_to_the_message():
-    e = FileNotFoundError("FreightFate folder missing from update.zip")
-    assert net.describe_error(e) == "FreightFate folder missing from update.zip."
+    e = FileNotFoundError("BigRigHorizon folder missing from update.zip")
+    assert net.describe_error(e) == "BigRigHorizon folder missing from update.zip."
     assert net.describe_error(ValueError()) == "ValueError."

@@ -14,9 +14,9 @@ def release_air_brakes(driving):
 
 def start_drive(app):
     """New career, accept an unlocked job, pick a route; returns DrivingState."""
-    from freight_fate.states.city import PickupFacilityState, RouteSelectState
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.states.city import PickupFacilityState, RouteSelectState
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app.push_state(MainMenuState(app.ctx))
     while app.state.items[app.state.index].text != "New career":
@@ -55,8 +55,8 @@ def quiet_trip(driving):
 
 
 def test_trip_event_sounds_use_contextual_cues():
-    from freight_fate.sim.trip import TripEvent, TripEventKind, Zone
-    from freight_fate.states.driving import _route_event_sound
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind, Zone
+    from big_rig_horizon.states.driving import _route_event_sound
 
     assert _route_event_sound(TripEvent(TripEventKind.HAZARD, "Brake now!")) == (
         "events/hazard_warning"
@@ -76,7 +76,7 @@ def test_trip_event_sounds_use_contextual_cues():
 
 
 def test_driving_f1_describes_safe_shutdown_and_destination_parking(monkeypatch):
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     spoken = []
@@ -95,8 +95,8 @@ def test_driving_f1_describes_safe_shutdown_and_destination_parking(monkeypatch)
 
 
 def test_closing_status_panel_does_not_restart_drive_music(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingStatusState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingStatusState
 
     app = App()
     played = []
@@ -121,7 +121,7 @@ def test_closing_status_panel_does_not_restart_drive_music(monkeypatch):
 
 
 def test_how_to_play_documents_new_gameplay_systems():
-    from freight_fate.states.main_menu import HELP_PAGES
+    from big_rig_horizon.states.main_menu import HELP_PAGES
 
     help_text = " ".join(line for _title, lines in HELP_PAGES for line in lines).lower()
 
@@ -147,7 +147,7 @@ def test_how_to_play_documents_new_gameplay_systems():
     assert "settings are split into pages" in help_text
     assert "tab moves to the next page" in help_text
     assert "trip pacing changes how quickly distance and game time pass" in help_text
-    assert "standard pacing is the normal freight fate pace" in help_text
+    assert "standard pacing is the normal big rig horizon pace" in help_text
     assert "relaxed keeps the clock but gives a more forgiving schedule" in help_text
     assert "longer limits and fewer penalties" in help_text
     assert "adaptive cruise" in help_text
@@ -179,10 +179,10 @@ def test_how_to_play_documents_new_gameplay_systems():
 
 
 def test_dispatch_board_keeps_route_planning_out_of_load_offer():
-    from freight_fate.app import App
-    from freight_fate.models.jobs import JobBoard
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import JobBoardState, route_planning_summary
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.jobs import JobBoard
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import JobBoardState, route_planning_summary
 
     app = App()
     try:
@@ -215,7 +215,7 @@ def test_dispatch_board_keeps_route_planning_out_of_load_offer():
 
 @pytest.mark.smoke
 def test_air_brake_startup_blocks_movement_until_ready_and_released(monkeypatch):
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     class FakeKeys:
         def __init__(self, held):
@@ -281,8 +281,8 @@ def test_air_brake_startup_blocks_movement_until_ready_and_released(monkeypatch)
 
 @pytest.mark.smoke
 def test_air_brake_help_and_status_are_spoken(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState, DrivingStatusState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState, DrivingStatusState
 
     app = App()
     spoken = []
@@ -336,7 +336,7 @@ def test_air_brake_help_and_status_are_spoken(monkeypatch):
 
 @pytest.mark.smoke
 def test_engine_shutdown_is_blocked_at_highway_speed(monkeypatch):
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     spoken = []
@@ -360,7 +360,7 @@ def test_engine_shutdown_is_blocked_at_highway_speed(monkeypatch):
 
 @pytest.mark.smoke
 def test_engine_shutdown_is_allowed_once_stopped():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -377,8 +377,8 @@ def test_engine_shutdown_is_allowed_once_stopped():
 
 @pytest.mark.smoke
 def test_delivery_requires_parking_at_destination(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import ArrivalState, DrivingState, FacilityArrivalState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState, FacilityArrivalState
 
     app = App()
     events = []
@@ -418,8 +418,8 @@ def test_delivery_requires_parking_at_destination(monkeypatch):
 
 @pytest.mark.smoke
 def test_facility_menu_waits_for_full_stop(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState, FacilityArrivalState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState, FacilityArrivalState
 
     app = App()
     events = []
@@ -485,8 +485,8 @@ def test_facility_menu_waits_for_full_stop(monkeypatch):
 
 @pytest.mark.smoke
 def test_exit_flow_reaches_the_rest_stop_menu():
-    from freight_fate.app import App
-    from freight_fate.states.driving import ParkingFullState, RestStopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import ParkingFullState, RestStopState
 
     app = App()
     try:
@@ -513,9 +513,9 @@ def test_exit_flow_reaches_the_rest_stop_menu():
 
 @pytest.mark.smoke
 def test_rest_stop_menu_can_save_active_drive():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import ParkingFullState, RestStopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import ParkingFullState, RestStopState
 
     app = App()
     try:
@@ -546,9 +546,9 @@ def test_rest_stop_menu_can_save_active_drive():
 
 @pytest.mark.smoke
 def test_poi_menu_uses_curated_roadside_assistance_label():
-    from freight_fate.app import App
-    from freight_fate.sim.trip import RoadStop
-    from freight_fate.states.driving import RestStopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import RoadStop
+    from big_rig_horizon.states.driving import RestStopState
 
     app = App()
     try:
@@ -574,10 +574,10 @@ def test_poi_menu_uses_curated_roadside_assistance_label():
 
 @pytest.mark.smoke
 def test_status_map_screen_describes_source_backed_poi_services():
-    from freight_fate.app import App
-    from freight_fate.models.jobs import CARGO_CATALOG, Job
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState, DrivingStatusState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.jobs import CARGO_CATALOG, Job
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState, DrivingStatusState
 
     app = App()
     try:
@@ -614,10 +614,10 @@ def test_status_map_screen_describes_source_backed_poi_services():
 
 @pytest.mark.smoke
 def test_toll_route_delivery_settlement_records_expense(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.jobs import CARGO_CATALOG, Job
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import ArrivalState, DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.jobs import CARGO_CATALOG, Job
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState
 
     app = App()
     spoken = []
@@ -674,8 +674,8 @@ def test_toll_route_delivery_settlement_records_expense(monkeypatch):
 
 @pytest.mark.smoke
 def test_can_back_up_to_a_missed_rest_stop_with_t_menu():
-    from freight_fate.app import App
-    from freight_fate.states.driving import ParkingFullState, RestStopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import ParkingFullState, RestStopState
 
     app = App()
     try:
@@ -698,7 +698,7 @@ def test_can_back_up_to_a_missed_rest_stop_with_t_menu():
 
 @pytest.mark.smoke
 def test_exit_missed_when_too_fast():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -719,7 +719,7 @@ def test_exit_missed_when_too_fast():
 
 @pytest.mark.smoke
 def test_exit_key_is_a_toggle_and_needs_an_exit_nearby():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -746,7 +746,7 @@ def test_exit_key_is_a_toggle_and_needs_an_exit_nearby():
 
 @pytest.mark.smoke
 def test_cruise_control_holds_the_set_speed():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -768,7 +768,7 @@ def test_cruise_control_holds_the_set_speed():
 
 @pytest.mark.smoke
 def test_automatic_shift_uses_shift_cue_not_brake_air(monkeypatch):
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     class NoKeys:
         def __getitem__(self, _key):
@@ -796,8 +796,8 @@ def test_automatic_shift_uses_shift_cue_not_brake_air(monkeypatch):
 
 @pytest.mark.smoke
 def test_cruise_control_requires_road_speed_and_cancels_on_hazard():
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind
 
     app = App()
     try:
@@ -821,8 +821,8 @@ def test_cruise_control_requires_road_speed_and_cancels_on_hazard():
 
 @pytest.mark.smoke
 def test_adaptive_cruise_follows_modeled_traffic(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TrafficLead
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TrafficLead
 
     app = App()
     events = []
@@ -852,9 +852,9 @@ def test_adaptive_cruise_follows_modeled_traffic(monkeypatch):
 
 @pytest.mark.smoke
 def test_adaptive_cruise_increases_gap_for_bad_weather(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TrafficLead
-    from freight_fate.sim.weather import WeatherKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TrafficLead
+    from big_rig_horizon.sim.weather import WeatherKind
 
     app = App()
     events = []
@@ -891,8 +891,8 @@ def test_adaptive_cruise_increases_gap_for_bad_weather(monkeypatch):
 
 @pytest.mark.smoke
 def test_adaptive_cruise_disables_before_restricted_zone(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind, Zone
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind, Zone
 
     app = App()
     events = []
@@ -926,8 +926,8 @@ def test_adaptive_cruise_disables_before_restricted_zone(monkeypatch):
 
 @pytest.mark.smoke
 def test_adaptive_cruise_disables_for_heavy_traffic_zone_entry(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind, Zone
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind, Zone
 
     app = App()
     events = []
@@ -967,7 +967,7 @@ def test_adaptive_cruise_disables_for_heavy_traffic_zone_entry(monkeypatch):
 
 def clear_weather(driving):
     """Pin the trip's weather to clear so grip stays 1.0 for the whole test."""
-    from freight_fate.sim.weather import WeatherKind
+    from big_rig_horizon.sim.weather import WeatherKind
 
     weather = driving.trip.weather
     weather.provider = None
@@ -981,9 +981,9 @@ def test_hazard_deadline_covers_braking_time_from_current_speed():
     """A fixed 3-4.5 s window was unbeatable at highway speed: a full-service
     stop from 65 to 25 mph alone takes ~5 s. The deadline must be the braking
     time from the current speed plus the rolled reaction slack."""
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind
-    from freight_fate.states.driving import HAZARD_SAFE_MPH, MPH_PER_MPS, G
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind
+    from big_rig_horizon.states.driving import HAZARD_SAFE_MPH, MPH_PER_MPS, G
 
     app = App()
     try:
@@ -1006,8 +1006,8 @@ def test_hazard_deadline_covers_braking_time_from_current_speed():
 def test_service_brakes_beat_a_highway_hazard_after_human_reaction(monkeypatch):
     """The taught response -- hear the warning, hold Down -- must succeed from
     highway speed even with a slow human reaction, without the emergency brake."""
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEvent, TripEventKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEvent, TripEventKind
 
     app = App()
     try:

@@ -187,7 +187,7 @@ class App:
     def __init__(self) -> None:
         os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
         pygame.init()
-        pygame.display.set_caption(f"Freight Fate {__version__}")
+        pygame.display.set_caption(f"Big Rig Horizon {__version__}")
         self.screen = pygame.display.set_mode(WINDOW_SIZE)
         self.clock = pygame.time.Clock()
         self.font = pygame.font.SysFont("Segoe UI, DejaVu Sans, Arial", 26)
@@ -300,7 +300,7 @@ def _configure_logging() -> None:
     update failures especially -- vanishes. The log lives next to the saves
     (game folder, saves/game.log) where a player can find and share it.
     """
-    level = os.environ.get("FREIGHT_FATE_LOG", "WARNING")
+    level = os.environ.get("BIG_RIG_HORIZON_LOG", "WARNING")
     handlers = None
     from . import updater
 
@@ -325,7 +325,7 @@ def main() -> int:
 
     guard = SingleInstanceGuard()
     if not guard.acquire():
-        log.warning("Freight Fate is already running.")
+        log.warning("Big Rig Horizon is already running.")
         return 0
     try:
         App().run(max_frames=5 if smoke else None)

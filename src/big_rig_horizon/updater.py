@@ -35,8 +35,8 @@ from .net import ssl_context
 
 log = logging.getLogger(__name__)
 
-REPO = "Orinks/Freight-fate"
-APP_NAME = "FreightFate"
+REPO = "spacemangaming/Freight-Fate"
+APP_NAME = "BigRigHorizon"
 API_BASE = f"https://api.github.com/repos/{REPO}"
 USER_AGENT = f"{APP_NAME}-updater"
 TIMEOUT = 15  # seconds, per HTTP request
@@ -111,7 +111,7 @@ def resolve_channel(setting: str, build: BuildInfo | None) -> str:
 @dataclass
 class UpdateInfo:
     tag: str            # release tag to install
-    title: str          # spoken name, e.g. "Freight Fate version 1.6.0"
+    title: str          # spoken name, e.g. "Big Rig Horizon version 1.6.0"
     notes: list[str]    # release notes flattened to speakable lines
     asset_name: str
     asset_url: str
@@ -188,7 +188,7 @@ def stable_update_from(release: dict, current_version: str) -> UpdateInfo | None
     if parse_version(tag) <= parse_version(current_version):
         return None
     return _update_from_release(
-        release, f"Freight Fate version {tag.lstrip('v')}")
+        release, f"Big Rig Horizon version {tag.lstrip('v')}")
 
 
 def _nightly_releases_newest_first(releases: list[dict]) -> list[dict]:
@@ -213,7 +213,7 @@ def dev_update_from(releases: list[dict], build: BuildInfo | None) -> UpdateInfo
         date = _nightly_date(tag)
         spoken = f"{date[:4]}-{date[4:6]}-{date[6:]}"
         return _update_from_release(
-            release, f"Freight Fate developer snapshot {spoken}")
+            release, f"Big Rig Horizon developer snapshot {spoken}")
     return None
 
 

@@ -2,11 +2,11 @@
 
 import json
 
-from freight_fate.models import Career, Economy, JobBoard, Profile
-from freight_fate.models.career import level_for_xp
-from freight_fate.models.jobs import CARGO_CATALOG, plan_hos
-from freight_fate.models.profile import SIGNATURE_FIELD, ProfileIntegrityError
-from freight_fate.settings import Settings
+from big_rig_horizon.models import Career, Economy, JobBoard, Profile
+from big_rig_horizon.models.career import level_for_xp
+from big_rig_horizon.models.jobs import CARGO_CATALOG, plan_hos
+from big_rig_horizon.models.profile import SIGNATURE_FIELD, ProfileIntegrityError
+from big_rig_horizon.settings import Settings
 
 # -- jobs ---------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ def test_deadlines_allow_legal_driving(world):
     """A deadline must cover the driving at an achievable average plus the
     HOS breaks and sleep the distance demands - no impossible 5-hour
     San Antonio to Dallas dispatches."""
-    from freight_fate.models.jobs import required_hours
+    from big_rig_horizon.models.jobs import required_hours
 
     for seed, level in ((1, 1), (2, 3), (3, 6)):
         board = JobBoard(world, seed=seed)
@@ -38,7 +38,7 @@ def test_deadlines_allow_legal_driving(world):
 
 
 def test_required_hours_includes_breaks_and_sleep():
-    from freight_fate.models.jobs import required_hours
+    from big_rig_horizon.models.jobs import required_hours
 
     assert required_hours(275) < 6.0            # SA-Dallas: just driving
     medium = required_hours(495)                # 9 driving hours: one break
@@ -56,7 +56,7 @@ def test_hos_plan_reports_breaks_sleeps_and_route_stop_coverage(world):
 
 
 def test_northeast_short_corridor_deadline_uses_direct_route(world):
-    from freight_fate.models.jobs import required_hours
+    from big_rig_horizon.models.jobs import required_hours
 
     jobs = JobBoard(world, seed=3).offers("Philadelphia", endorsements=set(), level=1)
     ny_jobs = [job for job in jobs if job.destination == "New York"]
@@ -77,7 +77,7 @@ def test_endorsement_gating(world):
 
 
 def test_payout_on_time_beats_late():
-    from freight_fate.models.jobs import Job
+    from big_rig_horizon.models.jobs import Job
 
     job = Job(CARGO_CATALOG["general"], 15, "A", "Loc", "B", 300, 700.0, 9.0)
     early = job.payout(hours_taken=5.0, damage_pct=0.0)
@@ -88,7 +88,7 @@ def test_payout_on_time_beats_late():
 
 
 def test_payout_punishes_fragile_damage():
-    from freight_fate.models.jobs import Job
+    from big_rig_horizon.models.jobs import Job
 
     fragile = Job(CARGO_CATALOG["electronics"], 8, "A", "Loc", "B", 300, 1000.0, 9.0)
     tough = Job(CARGO_CATALOG["bulk"], 8, "A", "Loc", "B", 300, 1000.0, 9.0)

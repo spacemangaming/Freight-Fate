@@ -7,7 +7,7 @@ landed yet, callers get ``None`` and the simulated weather carries on — the
 game works identically offline.
 
 WMO weather interpretation codes are mapped onto the game's
-:class:`~freight_fate.sim.weather.WeatherKind` conditions.
+:class:`~big_rig_horizon.sim.weather.WeatherKind` conditions.
 """
 
 from __future__ import annotations
@@ -73,7 +73,7 @@ def _default_fetch(lat: float, lon: float) -> tuple[int, float]:
     })
     req = urllib.request.Request(
         f"{API_URL}?{params}",
-        headers={"User-Agent": "FreightFate/1.1 (accessible trucking game)"},
+        headers={"User-Agent": "BigRigHorizon/1.1 (accessible trucking game)"},
     )
     with urllib.request.urlopen(req, timeout=FETCH_TIMEOUT_S,
                                 context=ssl_context()) as resp:

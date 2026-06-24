@@ -1,14 +1,14 @@
 """Freight market drift, determinism, and job pay integration."""
 
-from freight_fate.models.jobs import JobBoard
-from freight_fate.models.market import (
+from big_rig_horizon.models.jobs import JobBoard
+from big_rig_horizon.models.market import (
     MARKET_CARGO_KEYS,
     MARKET_MAX,
     MARKET_MIN,
     Market,
     market_condition,
 )
-from freight_fate.models.profile import Profile
+from big_rig_horizon.models.profile import Profile
 
 
 def assert_in_bounds(market: Market) -> None:

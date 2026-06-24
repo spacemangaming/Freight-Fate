@@ -2,8 +2,8 @@
 
 import pytest
 
-from freight_fate.sim import TruckState
-from freight_fate.sim.transmission import REVERSE
+from big_rig_horizon.sim import TruckState
+from big_rig_horizon.sim.transmission import REVERSE
 
 
 def drive(truck: TruckState, seconds: float, dt: float = 1 / 60) -> None:

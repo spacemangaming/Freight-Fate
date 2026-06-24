@@ -7,9 +7,9 @@ import threading
 from pathlib import Path
 from types import SimpleNamespace
 
-from freight_fate import updater
-from freight_fate.settings import Settings
-from freight_fate.updater import (
+from big_rig_horizon import updater
+from big_rig_horizon.settings import Settings
+from big_rig_horizon.updater import (
     BuildInfo,
     build_info_from_dict,
     dev_update_from,
@@ -30,7 +30,7 @@ def release(tag, prerelease=False, body="", assets=("-windows-portable.zip",
         "prerelease": prerelease,
         "body": body,
         "assets": [
-            {"name": f"FreightFate-{tag}{suffix}",
+            {"name": f"BigRigHorizon-{tag}{suffix}",
              "browser_download_url": f"https://example.test/{tag}/{suffix}",
              "size": 50_000_000}
             for suffix in assets
@@ -205,14 +205,14 @@ def test_flatten_markdown_handles_empty_body():
 def test_write_apply_script_waits_for_pid_and_relaunches(tmp_path):
     staging = tmp_path / "staging"
     staging.mkdir()
-    new_root = staging / "FreightFate"
+    new_root = staging / "BigRigHorizon"
     install = tmp_path / "install"
     script = write_apply_script(new_root, install, staging, pid=4242)
     text = script.read_text(encoding="utf-8")
     assert "4242" in text
     assert str(install) in text
     assert str(new_root) in text
-    assert "FreightFate" in text
+    assert "BigRigHorizon" in text
     assert script.parent == tmp_path  # outside the staging dir it deletes
     # portable saves live inside the install folder; the swap must not
     # touch them (Windows excludes the dir, POSIX never purges the root)
@@ -232,7 +232,7 @@ def test_settings_default_and_validation(tmp_path, monkeypatch):
     assert s.update_channel == ""
     assert s.skipped_update == ""
 
-    monkeypatch.setattr("freight_fate.models.profile.data_dir",
+    monkeypatch.setattr("big_rig_horizon.models.profile.data_dir",
                         lambda: tmp_path)
     monkeypatch.setattr(Settings, "path",
                         property(lambda self: tmp_path / "settings.json"))
@@ -255,7 +255,7 @@ def test_install_root_is_executable_dir():
 
 
 def test_manual_update_check_explains_source_builds(monkeypatch):
-    from freight_fate.states.update import UpdateCheckState
+    from big_rig_horizon.states.update import UpdateCheckState
 
     spoken = []
     monkeypatch.setattr(updater, "is_frozen", lambda: False)
@@ -270,16 +270,16 @@ def test_manual_update_check_explains_source_builds(monkeypatch):
 
 
 def test_startup_update_prompt_respects_skipped_version():
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     done = threading.Event()
     done.set()
     info = updater.UpdateInfo(
         tag="v1.6.1",
-        title="Freight Fate version 1.6.1",
+        title="Big Rig Horizon version 1.6.1",
         notes=[],
-        asset_name="FreightFate-1.6.1-windows-portable.zip",
-        asset_url="https://example.test/FreightFate.zip",
+        asset_name="BigRigHorizon-1.6.1-windows-portable.zip",
+        asset_url="https://example.test/BigRigHorizon.zip",
         asset_size=1,
     )
     checker = SimpleNamespace(done=done, result=info)

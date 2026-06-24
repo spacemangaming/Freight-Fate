@@ -5,7 +5,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from freight_fate.updater import flatten_markdown
+from big_rig_horizon.updater import flatten_markdown
 
 
 def load_release_notes_module():

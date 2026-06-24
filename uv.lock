@@ -355,7 +355,7 @@ wheels = [
 ]
 
 [[package]]
-name = "freight-fate"
+name = "big-rig-horizon"
 version = "1.6.0"
 source = { editable = "." }
 dependencies = [

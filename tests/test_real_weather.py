@@ -3,8 +3,8 @@ function is injected everywhere."""
 
 import threading
 
-from freight_fate.sim.real_weather import CACHE_TTL_S, RealWeatherProvider, map_wmo
-from freight_fate.sim.weather import WeatherKind, WeatherSystem
+from big_rig_horizon.sim.real_weather import CACHE_TTL_S, RealWeatherProvider, map_wmo
+from big_rig_horizon.sim.weather import WeatherKind, WeatherSystem
 
 # -- WMO code mapping ----------------------------------------------------------
 

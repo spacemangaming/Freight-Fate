@@ -115,7 +115,7 @@ def _career_summary(path: Path, profile: Profile, *, include_saved: bool = True)
 
 
 class MainMenuState(MenuState):
-    title = "Freight Fate"
+    title = "Big Rig Horizon"
 
     # one startup update check per game session, shared across instances
     _update_checker: UpdateChecker | None = None
@@ -154,7 +154,7 @@ class MainMenuState(MenuState):
                        f"{count} saved careers failed integrity checks and "
                        f"were moved aside. ")
         self.ctx.say(
-            f"Welcome to Freight Fate, version {__version__}. "
+            f"Welcome to Big Rig Horizon, version {__version__}. "
             f"An audio trucking adventure across America. {warning}"
             f"{self.current_text()}",
         )
@@ -579,7 +579,7 @@ HELP_PAGES = [
         "Transmission chooses automatic shifting or manual shifting.",
         "Trip pacing changes how quickly distance and game time pass while driving.",
         "Relaxed pacing gives you more real time to react.",
-        "Standard pacing is the normal Freight Fate pace.",
+        "Standard pacing is the normal Big Rig Horizon pace.",
         "Fast pacing makes long trips move quicker, but decisions arrive sooner.",
         "Hours of service changes how strict the legal driving clock is.",
         "Realistic uses the full driving, duty, break, and rest rules.",
@@ -708,7 +708,7 @@ HELP_PAGES = [
         "markets; tight cargo pays well above the usual rate.",
     ]),
     ("Markets and route coverage", [
-        "Freight Fate focuses on major freight areas instead of every town.",
+        "Big Rig Horizon focuses on major freight areas instead of every town.",
         "The highway map connects those areas with drivable long-haul routes.",
         "Freight variety comes from the facilities inside each area.",
         "A load may route from Chicago to Los Angeles, but the work can be",

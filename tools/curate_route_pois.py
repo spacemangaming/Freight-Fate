@@ -18,11 +18,11 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from freight_fate.data.world import WORLD_PATH, minimum_curated_pois
+from big_rig_horizon.data.world import WORLD_PATH, minimum_curated_pois
 
 LOVES_ENDPOINT = "https://www.loves.com/api/fetch_stores"
 PILOT_ENDPOINT = "https://locations.pilotflyingj.com/search"
-USER_AGENT = "FreightFateRouteCuration/1.0"
+USER_AGENT = "BigRigHorizonRouteCuration/1.0"
 ACCESSED_DATE = "2026-06-17"
 EARTH_RADIUS_MI = 3958.7613
 

@@ -53,7 +53,7 @@ def test_route_options_are_distinct_and_sorted(world):
 
 
 def test_route_options_reject_out_of_direction_detours(world):
-    from freight_fate.data.world import _max_alternate_miles
+    from big_rig_horizon.data.world import _max_alternate_miles
 
     for start, end in [
         ("Philadelphia", "New York"),      # Northeast Corridor freight
@@ -98,8 +98,8 @@ def test_unknown_city_raises(world):
 
 
 def test_every_city_has_locations_with_known_cargo(world):
-    from freight_fate.data.world import FREIGHT_LOCATION_TYPES
-    from freight_fate.models.jobs import CARGO_CATALOG
+    from big_rig_horizon.data.world import FREIGHT_LOCATION_TYPES
+    from big_rig_horizon.models.jobs import CARGO_CATALOG
 
     for city in world.cities.values():
         assert city.locations, f"{city.name} has no freight locations"
@@ -164,7 +164,7 @@ def test_each_metro_expands_to_representative_facilities(world):
 
 
 def test_route_stops_have_trucker_relevant_types(world):
-    from freight_fate.data.world import (
+    from big_rig_horizon.data.world import (
         DEFAULT_POI_ACTIONS,
         PARKING_CERTAINTY_LABELS,
         POI_ACTIONS,
@@ -244,7 +244,7 @@ def test_poi_names_are_curated_not_raw_osm_dump(world):
 def test_world_rejects_raw_source_text_in_player_poi_name():
     import pytest
 
-    from freight_fate.data.world import World
+    from big_rig_horizon.data.world import World
 
     data = {
         "cities": {
@@ -275,7 +275,7 @@ def test_world_rejects_raw_source_text_in_player_poi_name():
 def test_world_rejects_raw_source_text_in_player_facility_name():
     import pytest
 
-    from freight_fate.data.world import World
+    from big_rig_horizon.data.world import World
 
     data = {
         "cities": {
@@ -296,7 +296,7 @@ def test_world_rejects_raw_source_text_in_player_facility_name():
 def test_repair_action_requires_matching_service_metadata():
     import pytest
 
-    from freight_fate.data.world import World
+    from big_rig_horizon.data.world import World
 
     data = {
         "cities": {
@@ -327,7 +327,7 @@ def test_repair_action_requires_matching_service_metadata():
 
 
 def test_explicit_roadside_assistance_service_can_extend_plaza_actions():
-    from freight_fate.data.world import World
+    from big_rig_horizon.data.world import World
 
     data = {
         "cities": {
@@ -378,7 +378,7 @@ def test_corridor_metadata_supports_offline_itineraries(world):
 
 
 def test_supported_routes_require_complete_corridor_metadata(world):
-    from freight_fate.data.world import (
+    from big_rig_horizon.data.world import (
         minimum_curated_pois,
         minimum_fuel_capable_pois,
     )
@@ -509,7 +509,7 @@ def test_toll_metadata_is_explicit_and_separate_from_service_plazas(world):
 def test_world_rejects_missing_stop_position():
     import pytest
 
-    from freight_fate.data.world import World
+    from big_rig_horizon.data.world import World
 
     data = {
         "cities": {
@@ -535,7 +535,7 @@ def test_world_rejects_missing_stop_position():
 def test_world_rejects_out_of_range_stop_position():
     import pytest
 
-    from freight_fate.data.world import World
+    from big_rig_horizon.data.world import World
 
     data = {
         "cities": {
@@ -568,7 +568,7 @@ def test_route_describe_mentions_miles_and_highway(world):
 # -- graph integrity -----------------------------------------------------------
 
 def test_every_city_has_coordinates_and_a_known_region(world):
-    from freight_fate.sim.weather import REGION_WEIGHTS
+    from big_rig_horizon.sim.weather import REGION_WEIGHTS
 
     for city in world.cities.values():
         assert city.region in REGION_WEIGHTS, f"{city.name}: region {city.region}"

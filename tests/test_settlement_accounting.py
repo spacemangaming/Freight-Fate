@@ -5,7 +5,7 @@ import pytest
 
 def _job(cargo_key="electronics", *, origin="New York", destination="Philadelphia",
          destination_type="dry_warehouse", pay=2500.0, deadline=12.0):
-    from freight_fate.models.jobs import CARGO_CATALOG, Job
+    from big_rig_horizon.models.jobs import CARGO_CATALOG, Job
 
     return Job(
         CARGO_CATALOG[cargo_key],
@@ -23,8 +23,8 @@ def _job(cargo_key="electronics", *, origin="New York", destination="Philadelphi
 
 
 def _settle(app, job, route_cities, *, money=1000.0, speeding_strikes=0):
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import ArrivalState, DrivingState
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState
 
     app.ctx.profile = Profile(name="Settlement Audit", current_city=job.origin)
     app.ctx.profile.money = money
@@ -39,7 +39,7 @@ def _settle(app, job, route_cities, *, money=1000.0, speeding_strikes=0):
 
 
 def test_carrier_paid_charges_do_not_increase_player_progression():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -57,7 +57,7 @@ def test_carrier_paid_charges_do_not_increase_player_progression():
 
 
 def test_driver_responsibility_charges_reduce_driver_pay_but_not_carrier_charges():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -79,11 +79,11 @@ def test_driver_responsibility_charges_reduce_driver_pay_but_not_carrier_charges
 
 
 def test_restored_toll_charges_do_not_duplicate_or_pay_out():
-    from freight_fate.app import App
-    from freight_fate.models.jobs import job_payload
-    from freight_fate.models.profile import Profile
-    from freight_fate.sim.trip import TripEventKind
-    from freight_fate.states.driving import ArrivalState, DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.jobs import job_payload
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.sim.trip import TripEventKind
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState
 
     app = App()
     try:
@@ -122,7 +122,7 @@ def test_restored_toll_charges_do_not_duplicate_or_pay_out():
 
 
 def test_toll_route_does_not_pay_more_than_equal_non_toll_route():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:

@@ -2,8 +2,8 @@
 
 import pytest
 
-from freight_fate import audio
-from freight_fate.audio import (
+from big_rig_horizon import audio
+from big_rig_horizon.audio import (
     ENGINE_FREQ_MAX_MULT,
     ENGINE_LOOP_GAIN,
     ENGINE_RPM_IDLE,
@@ -12,7 +12,7 @@ from freight_fate.audio import (
     _asset_path,
     engine_freq_mult,
 )
-from freight_fate.music import ALL_MUSIC_TRACKS
+from big_rig_horizon.music import ALL_MUSIC_TRACKS
 
 
 def exercise(a: AudioEngine) -> None:
@@ -38,7 +38,7 @@ def exercise(a: AudioEngine) -> None:
 
 
 def test_bass_backend_selected_by_default(monkeypatch):
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     a = AudioEngine()
     assert a.backend_name == "bass"
     assert a.enabled
@@ -46,14 +46,14 @@ def test_bass_backend_selected_by_default(monkeypatch):
 
 
 def test_env_var_forces_pygame_backend(monkeypatch):
-    monkeypatch.setenv("FREIGHT_FATE_AUDIO_BACKEND", "pygame")
+    monkeypatch.setenv("BIG_RIG_HORIZON_AUDIO_BACKEND", "pygame")
     a = AudioEngine()
     assert a.backend_name in ("pygame", "none")
     exercise(a)
 
 
 def test_fallback_to_pygame_when_bass_init_fails(monkeypatch):
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
 
     def broken_bass():
         raise RuntimeError("BASS failed to initialize")
@@ -188,7 +188,7 @@ def test_bass_music_never_loops_catalog_tracks(monkeypatch):
 
 
 def test_bass_engine_uses_single_pitched_loop(monkeypatch):
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     a = AudioEngine()
     if a.backend_name != "bass":
         pytest.skip("BASS backend unavailable")
@@ -207,7 +207,7 @@ def test_bass_engine_uses_single_pitched_loop(monkeypatch):
 
 
 def test_road_noise_loop_tracks_speed(monkeypatch):
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     a = AudioEngine()
     if a.backend_name != "bass":
         pytest.skip("BASS backend unavailable")
@@ -221,7 +221,7 @@ def test_road_noise_loop_tracks_speed(monkeypatch):
 
 
 def test_new_context_loops_enter_mixer_at_full_gain(monkeypatch):
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     a = AudioEngine()
     if a.backend_name != "bass":
         pytest.skip("BASS backend unavailable")
@@ -241,7 +241,7 @@ def test_bass_one_shots_survive_garbage_collection(monkeypatch):
     # or every one-shot (menu sounds, horn, warnings) is cut off instantly
     import gc
 
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     a = AudioEngine()
     if a.backend_name != "bass":
         pytest.skip("BASS backend unavailable")
@@ -256,7 +256,7 @@ def test_bass_one_shots_survive_garbage_collection(monkeypatch):
 def test_bass_fading_loops_stay_alive_during_fade(monkeypatch):
     import gc
 
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     a = AudioEngine()
     if a.backend_name != "bass":
         pytest.skip("BASS backend unavailable")
@@ -274,7 +274,7 @@ def test_bass_fading_loops_stay_alive_during_fade(monkeypatch):
 def test_bass_headless_uses_no_sound_device(monkeypatch):
     # conftest sets SDL_AUDIODRIVER=dummy, which must route BASS to the
     # "no sound" device so CI runs the full pipeline without hardware
-    monkeypatch.delenv("FREIGHT_FATE_AUDIO_BACKEND", raising=False)
+    monkeypatch.delenv("BIG_RIG_HORIZON_AUDIO_BACKEND", raising=False)
     monkeypatch.setenv("SDL_AUDIODRIVER", "dummy")
     a = AudioEngine()
     if a.backend_name != "bass":

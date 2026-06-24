@@ -1,4 +1,4 @@
-"""Curated changelog utilities for Freight Fate releases.
+"""Curated changelog utilities for Big Rig Horizon releases.
 
 ``stable`` writes the matching version block from ``CHANGELOG.md``.
 ``nightly`` writes new ``Unreleased`` entries since the previous snapshot.

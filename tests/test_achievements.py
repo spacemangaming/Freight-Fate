@@ -14,8 +14,8 @@ def select(menu, label):
 
 
 def test_achievement_copy_is_allusive_and_speech_sized():
-    from freight_fate.achievements import ACHIEVEMENTS, award
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.achievements import ACHIEVEMENTS, award
+    from big_rig_horizon.models.profile import Profile
 
     for achievement in ACHIEVEMENTS:
         artist, title = achievement.inspiration.split(" - ", 1)
@@ -34,7 +34,7 @@ def test_achievement_copy_is_allusive_and_speech_sized():
 
 
 def test_old_save_without_achievements_loads_with_defaults(tmp_path):
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.models.profile import Profile
 
     path = tmp_path / "old.json"
     path.write_text(json.dumps({"name": "Old Timer", "money": 5000.0}), encoding="utf-8")
@@ -46,8 +46,8 @@ def test_old_save_without_achievements_loads_with_defaults(tmp_path):
 
 
 def test_award_achievement_persists_and_deduplicates_notification(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
 
     app = App()
     try:
@@ -72,8 +72,8 @@ def test_award_achievement_persists_and_deduplicates_notification(monkeypatch):
 
 
 def test_event_achievement_speaks_through_screen_reader(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
 
     app = App()
     try:
@@ -95,9 +95,9 @@ def test_event_achievement_speaks_through_screen_reader(monkeypatch):
 
 
 def test_main_menu_achievement_path_is_keyboard_accessible(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.main_menu import (
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.main_menu import (
         AchievementCareerState,
         AchievementsState,
         MainMenuState,
@@ -127,10 +127,10 @@ def test_main_menu_achievement_path_is_keyboard_accessible(monkeypatch):
 
 
 def test_delivery_settlement_awards_core_achievements(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.jobs import JobBoard
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import ArrivalState, DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.jobs import JobBoard
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState
 
     app = App()
     try:
@@ -165,8 +165,8 @@ def test_delivery_settlement_awards_core_achievements(monkeypatch):
 
 
 def test_suppressed_award_collects_without_chime_or_speech(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
 
     app = App()
     try:
@@ -187,11 +187,11 @@ def test_suppressed_award_collects_without_chime_or_speech(monkeypatch):
 
 
 def test_state_crossing_keeps_gameplay_prompt_before_achievement(monkeypatch):
-    from freight_fate.app import App
-    from freight_fate.models.jobs import JobBoard
-    from freight_fate.models.profile import Profile
-    from freight_fate.sim.trip import NavigationCue, TripEvent, TripEventKind
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.jobs import JobBoard
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.sim.trip import NavigationCue, TripEvent, TripEventKind
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     try:

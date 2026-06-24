@@ -1,6 +1,6 @@
 """Transmission behavior tests."""
 
-from freight_fate.sim.transmission import NEUTRAL, REVERSE, Transmission
+from big_rig_horizon.sim.transmission import NEUTRAL, REVERSE, Transmission
 
 
 def test_starts_in_neutral():

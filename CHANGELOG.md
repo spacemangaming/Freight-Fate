@@ -4,12 +4,12 @@
 
 ### Added
 - **Music remakes.** The main menu theme, Open Road, and Night Haul now use
-  new Suno remakes while keeping their familiar Freight Fate music slots.
+  new Suno remakes while keeping their familiar Big Rig Horizon music slots.
 - **Music rotation.** All menu and driving music beds now play once and rotate
   through their active pool instead of looping.
 - **Quieter music by default.** New settings now start background music at half
   volume so speech and driving cues stay comfortably in front.
-- **Expanded music beds.** Freight Fate now includes longer menu, facility,
+- **Expanded music beds.** Big Rig Horizon now includes longer menu, facility,
   daytime driving, and nighttime driving music. Menus and freight facility
   screens use a career-aware pool, and active drives use stable day/night
   pools that rotate without reshuffling abruptly while you are on the road.
@@ -318,7 +318,7 @@ compresses it as usual), never wall time.
   choice is now validated against actual runtime support and falls down
   the priority list (JAWS, One Core, SAPI, Speech Dispatcher, ...) to the
   best backend that can really speak. A new
-  `FREIGHT_FATE_SPEECH_BACKEND=<name>` environment variable forces a
+  `BIG_RIG_HORIZON_SPEECH_BACKEND=<name>` environment variable forces a
   specific backend for troubleshooting.
 
 ### Compatibility
@@ -382,7 +382,7 @@ compresses it as usual), never wall time.
   single loop whose playback frequency tracks RPM in real time, smoothed with
   BASS attribute slides — no more four-band crossfade seams. pygame.mixer
   remains as an automatic fallback when sound_lib/BASS cannot initialize
-  (`FREIGHT_FATE_AUDIO_BACKEND=pygame` forces it), and headless environments
+  (`BIG_RIG_HORIZON_AUDIO_BACKEND=pygame` forces it), and headless environments
   use BASS's "no sound" device so CI runs the full audio pipeline silently.
 - **Garage upgrades** (Garage → Upgrades), money-gated and saved on the
   profile: engine tune (+10% torque per tier, two tiers), aerodynamic kit
@@ -404,7 +404,7 @@ compresses it as usual), never wall time.
   defaults).
 
 ### Notes
-- BASS is proprietary software, free for non-commercial use. If Freight Fate
+- BASS is proprietary software, free for non-commercial use. If Big Rig Horizon
   is ever sold commercially, a paid license from
   [un4seen developments](https://www.un4seen.com/bass.html#license) is
   required. See the README's license section.

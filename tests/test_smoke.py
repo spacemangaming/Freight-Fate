@@ -16,9 +16,9 @@ def select(menu, label):
 
 @pytest.mark.smoke
 def test_garage_offers_partial_fuel_and_repairs_when_cash_is_short():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import GarageState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import GarageState
 
     app = App()
     try:
@@ -45,15 +45,15 @@ def test_garage_offers_partial_fuel_and_repairs_when_cash_is_short():
 
 @pytest.mark.smoke
 def test_full_game_flow_headless(monkeypatch):
-    from freight_fate import __version__
-    from freight_fate.app import App
-    from freight_fate.states.city import (
+    from big_rig_horizon import __version__
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import (
         CityMenuState,
         JobBoardState,
         PickupFacilityState,
     )
-    from freight_fate.states.driving import ArrivalState, DrivingState, FacilityArrivalState
-    from freight_fate.states.main_menu import (
+    from big_rig_horizon.states.driving import ArrivalState, DrivingState, FacilityArrivalState
+    from big_rig_horizon.states.main_menu import (
         HomeTerminalState,
         MainMenuState,
         NameEntryState,
@@ -67,9 +67,9 @@ def test_full_game_flow_headless(monkeypatch):
         app.push_state(MainMenuState(app.ctx))
         menu = app.state
         assert isinstance(menu, MainMenuState)
-        assert menu.lines()[0] == "Freight Fate"
+        assert menu.lines()[0] == "Big Rig Horizon"
         assert any(
-            f"Welcome to Freight Fate, version {__version__}." in line
+            f"Welcome to Big Rig Horizon, version {__version__}." in line
             for line in spoken
         )
 
@@ -117,7 +117,7 @@ def test_full_game_flow_headless(monkeypatch):
         app.state.handle_event(key_event(pygame.K_RETURN))  # load at dock
         assert "Depart for destination" in app.state.items[app.state.index].text
         app.state.handle_event(key_event(pygame.K_RETURN))
-        from freight_fate.states.city import RouteSelectState
+        from big_rig_horizon.states.city import RouteSelectState
 
         assert isinstance(app.state, RouteSelectState)
         app.state.handle_event(key_event(pygame.K_RETURN))
@@ -185,8 +185,8 @@ def test_full_game_flow_headless(monkeypatch):
 
 @pytest.mark.smoke
 def test_menu_first_letter_navigation():
-    from freight_fate.app import App
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app = App()
     try:
@@ -204,14 +204,14 @@ def test_menu_first_letter_navigation():
 
 @pytest.mark.smoke
 def test_garage_upgrade_and_truck_purchase_flow():
-    from freight_fate.app import App
-    from freight_fate.states.city import (
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import (
         CityMenuState,
         GarageState,
         TruckShopState,
         UpgradeShopState,
     )
-    from freight_fate.states.main_menu import MainMenuState, NameEntryState
+    from big_rig_horizon.states.main_menu import MainMenuState, NameEntryState
 
     app = App()
     try:
@@ -242,7 +242,7 @@ def test_garage_upgrade_and_truck_purchase_flow():
             shop.handle_event(key_event(pygame.K_DOWN))
         shop.handle_event(key_event(pygame.K_RETURN))
         assert p.upgrades.get("engine_tune") == 1
-        from freight_fate.models.profile import Profile
+        from big_rig_horizon.models.profile import Profile
 
         reloaded = Profile.load(p.path)
         assert reloaded.upgrades.get("engine_tune") == 1
@@ -292,9 +292,9 @@ def test_garage_upgrade_and_truck_purchase_flow():
 
 @pytest.mark.smoke
 def test_upgrades_are_money_gated():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import UpgradeShopState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import UpgradeShopState
 
     app = App()
     try:
@@ -311,10 +311,10 @@ def test_upgrades_are_money_gated():
 
 @pytest.mark.smoke
 def test_pause_and_abandon_returns_to_city():
-    from freight_fate.app import App
-    from freight_fate.states.city import CityMenuState, PickupFacilityState, RouteSelectState
-    from freight_fate.states.driving import DrivingState, PauseMenuState
-    from freight_fate.states.main_menu import MainMenuState, NameEntryState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import CityMenuState, PickupFacilityState, RouteSelectState
+    from big_rig_horizon.states.driving import DrivingState, PauseMenuState
+    from big_rig_horizon.states.main_menu import MainMenuState, NameEntryState
 
     app = App()
     try:

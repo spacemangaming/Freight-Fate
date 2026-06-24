@@ -78,7 +78,7 @@ DEFAULT_WEIGHTS = REGION_WEIGHTS["midwest"]
 class WeatherSystem:
     """Evolving weather for the current region of a trip.
 
-    With a ``provider`` (see :mod:`freight_fate.sim.real_weather`) attached,
+    With a ``provider`` (see :mod:`big_rig_horizon.sim.real_weather`) attached,
     real current conditions for the tracked city take priority; the simulated
     Markov weather keeps running underneath as an offline fallback.
     """

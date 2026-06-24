@@ -10,9 +10,9 @@ def key_event(key, unicode=""):
 
 def start_drive(app):
     """New career, accept an unlocked job, pick a route; returns DrivingState."""
-    from freight_fate.states.city import PickupFacilityState, RouteSelectState
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.states.city import PickupFacilityState, RouteSelectState
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app.push_state(MainMenuState(app.ctx))
     while app.state.items[app.state.index].text != "New career":
@@ -58,8 +58,8 @@ def drive_some(driving, miles: float = 8.0) -> None:
 
 
 def quit_to_menu(app):
-    from freight_fate.states.driving import PauseMenuState
-    from freight_fate.states.main_menu import MainMenuState
+    from big_rig_horizon.states.driving import PauseMenuState
+    from big_rig_horizon.states.main_menu import MainMenuState
 
     app.state.handle_event(key_event(pygame.K_ESCAPE))
     assert isinstance(app.state, PauseMenuState)
@@ -72,8 +72,8 @@ def quit_to_menu(app):
 
 @pytest.mark.smoke
 def test_save_and_quit_then_continue_resumes_the_trip():
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     try:
@@ -116,8 +116,8 @@ def test_save_and_quit_then_continue_resumes_the_trip():
 
 @pytest.mark.smoke
 def test_resumed_trip_does_not_replay_passed_announcements():
-    from freight_fate.app import App
-    from freight_fate.sim.trip import TripEventKind
+    from big_rig_horizon.app import App
+    from big_rig_horizon.sim.trip import TripEventKind
 
     app = App()
     try:
@@ -140,8 +140,8 @@ def test_resumed_trip_does_not_replay_passed_announcements():
 
 @pytest.mark.smoke
 def test_delivery_clears_the_saved_trip():
-    from freight_fate.app import App
-    from freight_fate.states.driving import ArrivalState, FacilityArrivalState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import ArrivalState, FacilityArrivalState
 
     app = App()
     try:
@@ -167,9 +167,9 @@ def test_delivery_clears_the_saved_trip():
 
 @pytest.mark.smoke
 def test_abandoning_clears_the_saved_trip():
-    from freight_fate.app import App
-    from freight_fate.states.city import CityMenuState
-    from freight_fate.states.driving import PauseMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import CityMenuState
+    from big_rig_horizon.states.driving import PauseMenuState
 
     app = App()
     try:
@@ -192,9 +192,9 @@ def test_abandoning_clears_the_saved_trip():
 def test_abandoning_keeps_the_hours_spent_driving():
     """Regression: abandoning a job snapped the world clock back to the
     departure time, while HOS and fatigue kept the accrued hours."""
-    from freight_fate.app import App
-    from freight_fate.states.city import CityMenuState
-    from freight_fate.states.driving import PauseMenuState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.city import CityMenuState
+    from big_rig_horizon.states.driving import PauseMenuState
 
     app = App()
     try:
@@ -219,7 +219,7 @@ def test_abandoning_keeps_the_hours_spent_driving():
 def test_trip_pacing_change_applies_to_the_active_trip():
     """Regression: changing Trip pacing from the pause menu was silently
     ignored until the next delivery."""
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -236,7 +236,7 @@ def test_trip_pacing_change_applies_to_the_active_trip():
 def test_weather_source_change_applies_to_the_active_trip(monkeypatch):
     """Regression: the pause-menu setting changed the label, but the current
     drive kept using the old weather source until the next job."""
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     class Provider:
         def request(self, city, lat, lon):
@@ -267,8 +267,8 @@ def test_weather_source_change_applies_to_the_active_trip(monkeypatch):
 
 @pytest.mark.smoke
 def test_arrival_summary_calls_out_early_delivery_bonus():
-    from freight_fate.app import App
-    from freight_fate.states.driving import ArrivalState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import ArrivalState
 
     app = App()
     try:
@@ -282,7 +282,7 @@ def test_arrival_summary_calls_out_early_delivery_bonus():
 
 
 def test_snapshot_survives_profile_roundtrip():
-    from freight_fate.app import App
+    from big_rig_horizon.app import App
 
     app = App()
     try:
@@ -290,7 +290,7 @@ def test_snapshot_survives_profile_roundtrip():
         drive_some(driving)
         quit_to_menu(app)
         p = app.ctx.profile
-        from freight_fate.models.profile import Profile
+        from big_rig_horizon.models.profile import Profile
 
         loaded = Profile.load(p.path)
         assert loaded.active_trip == p.active_trip
@@ -299,8 +299,8 @@ def test_snapshot_survives_profile_roundtrip():
 
 
 def test_snapshot_roundtrip_preserves_air_brake_state():
-    from freight_fate.app import App
-    from freight_fate.states.driving import DrivingState
+    from big_rig_horizon.app import App
+    from big_rig_horizon.states.driving import DrivingState
 
     app = App()
     try:
@@ -324,10 +324,10 @@ def test_snapshot_roundtrip_preserves_air_brake_state():
 
 
 def test_corrupt_snapshot_falls_back_to_city():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.city import CityMenuState
-    from freight_fate.states.main_menu import enter_world
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.city import CityMenuState
+    from big_rig_horizon.states.main_menu import enter_world
 
     app = App()
     try:
@@ -347,10 +347,10 @@ def test_old_map_snapshot_still_resumes():
     to survive every map expansion (see ORIGINAL_ADJACENT_PAIRS in
     test_world.py).
     """
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import enter_world
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import enter_world
 
     old_route = ["Chicago", "St. Louis", "Kansas City", "Denver"]
     app = App()
@@ -379,10 +379,10 @@ def test_old_map_snapshot_still_resumes():
 
 
 def test_bare_city_job_snapshot_gets_facility_fallback():
-    from freight_fate.app import App
-    from freight_fate.models.profile import Profile
-    from freight_fate.states.driving import DrivingState
-    from freight_fate.states.main_menu import enter_world
+    from big_rig_horizon.app import App
+    from big_rig_horizon.models.profile import Profile
+    from big_rig_horizon.states.driving import DrivingState
+    from big_rig_horizon.states.main_menu import enter_world
 
     app = App()
     try:

@@ -11,9 +11,9 @@ module wraps it in a small game-friendly interface that:
   validated against ``is_supported_at_runtime`` and falls down the priority
   list instead of binding to a screen reader that is not there,
 * prefers ``output`` (speech + braille) and falls back to ``speak``,
-* can be disabled with the ``FREIGHT_FATE_NO_SPEECH=1`` environment variable
+* can be disabled with the ``BIG_RIG_HORIZON_NO_SPEECH=1`` environment variable
   (used by the headless test suite and CI), and forced to a specific backend
-  with ``FREIGHT_FATE_SPEECH_BACKEND=<name>`` (for example ``SAPI``).
+  with ``BIG_RIG_HORIZON_SPEECH_BACKEND=<name>`` (for example ``SAPI``).
 """
 
 from __future__ import annotations
@@ -119,15 +119,15 @@ class Speech:
         self._backend = None
         self._event_backend = None
         self._prism_error: type[Exception] = Exception
-        if os.environ.get("FREIGHT_FATE_NO_SPEECH"):
-            log.info("Speech disabled via FREIGHT_FATE_NO_SPEECH")
+        if os.environ.get("BIG_RIG_HORIZON_NO_SPEECH"):
+            log.info("Speech disabled via BIG_RIG_HORIZON_NO_SPEECH")
             return
         try:
             import prism
 
             self._ctx = prism.Context()
             self._backend = pick_backend(
-                self._ctx, os.environ.get("FREIGHT_FATE_SPEECH_BACKEND"))
+                self._ctx, os.environ.get("BIG_RIG_HORIZON_SPEECH_BACKEND"))
             self._prism_error = prism.PrismError
             if self._backend is None:
                 log.warning("No usable speech backend on this machine; "

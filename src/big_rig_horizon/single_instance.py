@@ -9,7 +9,7 @@ import sys
 
 log = logging.getLogger(__name__)
 
-SINGLE_INSTANCE_MUTEX_NAME = "Local\\FreightFate.SingleInstance"
+SINGLE_INSTANCE_MUTEX_NAME = "Local\\BigRigHorizon.SingleInstance"
 ERROR_ALREADY_EXISTS = 183
 
 
@@ -26,7 +26,7 @@ def _configure_kernel32_signatures(kernel32) -> None:
 
 
 class SingleInstanceGuard:
-    """Coordinates one running Freight Fate instance per Windows session."""
+    """Coordinates one running Big Rig Horizon instance per Windows session."""
 
     def __init__(self, mutex_name: str = SINGLE_INSTANCE_MUTEX_NAME) -> None:
         self.mutex_name = mutex_name

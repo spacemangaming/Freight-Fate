@@ -1,10 +1,10 @@
 """Player profile with atomic JSON save/load.
 
-Freight Fate is portable: profiles and settings live in a ``saves``
+Big Rig Horizon is portable: profiles and settings live in a ``saves``
 directory inside the game's own main directory — next to the executable
 in frozen builds, the project root when running from source. Nothing is
 written to per-user system folders. Override the location with the
-``FREIGHT_FATE_DATA_DIR`` environment variable (which the tests use).
+``BIG_RIG_HORIZON_DATA_DIR`` environment variable (which the tests use).
 Saves from older versions, which lived in the per-user data directory,
 are migrated over automatically on first run.
 
@@ -48,7 +48,7 @@ def _legacy_data_dir() -> Path:
         base = Path.home() / "Library" / "Application Support"
     else:
         base = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local" / "share"))
-    return base / "FreightFate"
+    return base / "BigRigHorizon"
 
 
 def game_root() -> Path:
@@ -101,9 +101,9 @@ def _portable_migration_candidates() -> list[Path]:
     root = game_root()
     parent = root.parent
     candidates = [
-        root / "FreightFate" / "saves",
+        root / "BigRigHorizon" / "saves",
         parent / "saves",
-        parent / "FreightFate" / "saves",
+        parent / "BigRigHorizon" / "saves",
     ]
     if getattr(sys, "frozen", False):
         candidates.append(_frozen_executable_dir() / "saves")
@@ -111,7 +111,7 @@ def _portable_migration_candidates() -> list[Path]:
 
 
 def data_dir() -> Path:
-    override = os.environ.get("FREIGHT_FATE_DATA_DIR")
+    override = os.environ.get("BIG_RIG_HORIZON_DATA_DIR")
     if override:
         return Path(override)
     global _legacy_checked

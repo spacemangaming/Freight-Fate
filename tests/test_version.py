@@ -4,11 +4,11 @@ from pathlib import Path
 
 import tomllib
 
-import freight_fate
+import big_rig_horizon
 
 
 def test_package_version_matches_pyproject():
     pyproject = Path(__file__).resolve().parents[1] / "pyproject.toml"
     data = tomllib.loads(pyproject.read_text(encoding="utf-8"))
 
-    assert freight_fate.__version__ == data["project"]["version"]
+    assert big_rig_horizon.__version__ == data["project"]["version"]

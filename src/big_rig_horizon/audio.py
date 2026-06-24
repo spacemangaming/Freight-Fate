@@ -9,14 +9,14 @@ Two interchangeable backends sit behind the :class:`AudioEngine` facade:
 * **pygame.mixer** — automatic fallback when sound_lib/BASS cannot
   initialize. Uses the classic four-band engine loop crossfade.
 
-Set ``FREIGHT_FATE_AUDIO_BACKEND=pygame`` to skip BASS entirely.
+Set ``BIG_RIG_HORIZON_AUDIO_BACKEND=pygame`` to skip BASS entirely.
 
 Both backends degrade gracefully: if nothing can initialize, every method
 becomes a no-op, so game logic never needs to check for audio availability.
 
 Sound keys are paths relative to the bundled sound library, without
 extension: ``play("ui/menu_select")`` plays
-``freight_fate/assets/sounds/ui/menu_select.wav``.
+``big_rig_horizon/assets/sounds/ui/menu_select.wav``.
 """
 
 from __future__ import annotations
@@ -639,7 +639,7 @@ class AudioEngine:
 
     @staticmethod
     def _pick_backend():
-        pref = os.environ.get("FREIGHT_FATE_AUDIO_BACKEND", "").strip().lower()
+        pref = os.environ.get("BIG_RIG_HORIZON_AUDIO_BACKEND", "").strip().lower()
         if pref in ("", "bass"):
             try:
                 return _BassBackend()

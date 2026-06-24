@@ -68,7 +68,7 @@ class UpdateCheckState(State):
         if c.error:
             self.message = c.error + " Try again in a little while."
         elif c.result is None:
-            self.message = f"You are up to date. Freight Fate version {__version__}."
+            self.message = f"You are up to date. Big Rig Horizon version {__version__}."
         else:
             self.ctx.replace_state(UpdatePromptState(self.ctx, c.result))
             return
