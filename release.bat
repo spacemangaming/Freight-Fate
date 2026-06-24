@@ -27,7 +27,7 @@ if not "%~1"=="" (
 :menu
 cls
 echo %title_bar%
-echo   Big Rig Horizon - Project & Release Manager
+echo   Big Rig Horizon - Project ^& Release Manager
 echo %title_bar%
 
 :: Fetch current git branch
@@ -48,12 +48,12 @@ echo  [3] Build standalone package (Nuitka compilation)
 echo  [4] Generate release notes (from CHANGELOG.md)
 echo  [5] Run complete release pipeline (Sync + Test + Build + Notes)
 echo.
-echo  [6] Git Status (Check branch status & modified files)
-echo  [7] Git Stage & Commit (Save local changes)
+echo  [6] Git Status (Check branch status ^& modified files)
+echo  [7] Git Stage ^& Commit (Save local changes)
 echo  [8] Git Push (Upload local commits to remote)
 echo  [9] Git Tag Release (Create and push release version tag)
 echo.
-echo  [10] Bump / Edit Version (Update pyproject.toml & sync environment)
+echo  [10] Bump / Edit Version (Update pyproject.toml ^& sync environment)
 echo  [11] Exit
 echo.
 set /p choice="Enter option (1-11): "
@@ -274,7 +274,7 @@ goto menu
 :run_git_commit
 echo.
 echo %title_bar%
-echo   Git Stage & Commit
+echo   Git Stage ^& Commit
 echo %title_bar%
 set /p file_choice="Enter file path(s) to stage (e.g. src/file.py, press Enter for all '.'): "
 if "!file_choice!"=="" set "file_choice=."
