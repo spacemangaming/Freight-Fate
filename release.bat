@@ -51,7 +51,7 @@ echo.
 echo  [6] Git Status (Check branch status ^& modified files)
 echo  [7] Git Stage ^& Commit (Save local changes)
 echo  [8] Git Push (Upload local commits to remote)
-echo  [9] Git Tag Release (Create and push release version tag)
+echo  [9] Publish ^& Trigger Remote Release (Commit, push, and build)
 echo.
 echo  [10] Bump / Edit Version (Update pyproject.toml ^& sync environment)
 echo  [11] Exit
@@ -338,13 +338,78 @@ goto menu
 :run_git_tag
 echo.
 echo %title_bar%
-echo   Git Tag Release
+echo   Publish ^& Trigger Remote Release
 echo %title_bar%
-for /f "usebackq tokens=*" %%i in (`call uv run python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" 2^>nul`) do set "default_ver=v%%i"
-set /p tag_name="Enter tag name [default: !default_ver!]: "
-if "!tag_name!"=="" set "tag_name=!default_ver!"
-set /p tag_msg="Enter tag annotation message (optional): "
 
+:: Step 1: Bump version
+for /f "usebackq tokens=*" %%i in (`call uv run python -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])" 2^>nul`) do set "current_ver=%%i"
+echo Current Version in pyproject.toml: !current_ver!
+set /p change_ver="Do you want to change/bump the version? (y/n): "
+if /i "!change_ver!"=="y" (
+    set /p new_ver="Enter new version number (e.g. 1.7.0): "
+    if not "!new_ver!"=="" (
+        call uv run python tools/set_version.py !new_ver!
+        if %ERRORLEVEL% neq 0 (
+            echo [ERROR] Failed to update version. Aborting release.
+            pause
+            goto menu
+        )
+        set "current_ver=!new_ver!"
+    )
+)
+
+:: Step 2: Check for uncommitted changes
+set "git_dirty="
+for /f "usebackq tokens=*" %%i in (`git status --porcelain 2^>nul`) do set "git_dirty=%%i"
+if not "!git_dirty!"=="" (
+    echo.
+    echo [INFO] You have uncommitted changes in your repository.
+    git status -s
+    echo.
+    set /p stage_commit="Do you want to stage and commit these changes? (y/n): "
+    if /i "!stage_commit!"=="y" (
+        set /p commit_msg="Enter commit message for release changes: "
+        if "!commit_msg!"=="" set "commit_msg=Release version !current_ver!"
+        echo Staging all changes...
+        git add .
+        git commit -m "!commit_msg!"
+        if %ERRORLEVEL% neq 0 (
+            echo [ERROR] Git commit failed. Aborting release.
+            pause
+            goto menu
+        )
+    )
+)
+
+:: Step 3: Push commits to remote origin
+echo.
+for /f "usebackq tokens=*" %%i in (`git branch --show-current 2^>nul`) do set "current_branch=%%i"
+echo Pushing branch '!current_branch!' to origin...
+git push origin !current_branch!
+if %ERRORLEVEL% neq 0 (
+    echo [ERROR] Failed to push branch '!current_branch!' to origin. Aborting release.
+    pause
+    goto menu
+)
+
+:: Step 4: Choose triggering method
+echo.
+echo Select release build trigger method:
+echo  [1] Tag-triggered build (Creates tag v!current_ver! and pushes it. Recommended for stable releases)
+echo  [2] CLI-triggered dispatch (Requires GitHub CLI 'gh' installed. Triggers workflow dispatch)
+echo  [3] Cancel trigger (Pushed code only)
+echo.
+set /p trigger_choice="Enter option (1-3): "
+
+if "!trigger_choice!"=="1" goto trigger_tag
+if "!trigger_choice!"=="2" goto trigger_cli
+goto menu
+
+:trigger_tag
+set "tag_name=v!current_ver!"
+echo.
+echo Creating release tag '!tag_name!'...
+set /p tag_msg="Enter tag annotation message (optional): "
 if "!tag_msg!"=="" (
     git tag !tag_name!
 ) else (
@@ -362,7 +427,28 @@ if %ERRORLEVEL% neq 0 (
     pause
     goto menu
 )
-echo [SUCCESS] Tag created and pushed successfully.
+echo [SUCCESS] Tag '!tag_name!' pushed successfully! This will trigger the remote Release build.
+echo.
+pause
+goto menu
+
+:trigger_cli
+echo.
+where gh >nul 2>nul
+if %ERRORLEVEL% neq 0 (
+    echo [ERROR] GitHub CLI ('gh') was not found on your PATH.
+    echo Cannot trigger build via CLI dispatch. Falling back to tag-triggered build.
+    pause
+    goto trigger_tag
+)
+echo Triggering GitHub Actions build workflow via CLI dispatch...
+gh workflow run build.yml --ref !current_branch!
+if %ERRORLEVEL% neq 0 (
+    echo [ERROR] Failed to trigger workflow dispatch via 'gh'.
+    pause
+    goto menu
+)
+echo [SUCCESS] Remote Release build triggered successfully via GitHub CLI!
 echo.
 pause
 goto menu

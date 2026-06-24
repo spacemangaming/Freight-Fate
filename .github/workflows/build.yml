@@ -1,11 +1,6 @@
 name: Build
 
 on:
-  schedule:
-    # Nightly at 00:30 UTC, offset from AccessiWeather (00:17) and
-    # PortkeyDrop (00:27). GitHub Actions schedules are UTC-only and can
-    # queue late.
-    - cron: "30 0 * * *"
   push:
     tags: ['v*.*.*']
   workflow_dispatch:
@@ -38,8 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          # nightlies snapshot the dev branch; stable releases build the tag
-          ref: ${{ github.event_name == 'schedule' && 'dev' || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
 
       - name: Check build conditions
@@ -50,43 +44,17 @@ jobs:
           VERSION=$(python3 -c "import tomllib; print(tomllib.load(open('pyproject.toml', 'rb'))['project']['version'])")
 
           if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
-            # Tagged stable release
+            # Tagged stable release trigger
             echo "is_nightly=false" >> $GITHUB_OUTPUT
             echo "should_build=true" >> $GITHUB_OUTPUT
             echo "tag=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
             echo "version=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
-          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" ]]; then
-            # Manual snapshot dispatches are intentional force-builds.
+          else
+            # Manual dispatch trigger
             echo "is_nightly=true" >> $GITHUB_OUTPUT
             echo "should_build=true" >> $GITHUB_OUTPUT
-            echo "tag=nightly-$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-          else
-            # Scheduled developer snapshot from dev - only when something
-            # user-facing changed since the previous snapshot.
-            echo "is_nightly=true" >> $GITHUB_OUTPUT
-            echo "tag=nightly-$(date -u +%Y%m%d)" >> $GITHUB_OUTPUT
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-            LAST_TAG=$(git tag --list "nightly-*" --sort=-version:refname | head -1)
-
-            if [ -z "$LAST_TAG" ]; then
-              echo "should_build=true" >> $GITHUB_OUTPUT
-            else
-              gh release view "$LAST_TAG" --json body -q .body > previous-notes.md || true
-              : > latest-stable-notes.md
-              LATEST_STABLE_TAG=$(gh api "repos/${GITHUB_REPOSITORY}/releases" \
-                --jq '[.[] | select(.draft == false and .prerelease == false)][0].tag_name // ""')
-              if [ -n "$LATEST_STABLE_TAG" ]; then
-                gh release view "$LATEST_STABLE_TAG" --json body -q .body > latest-stable-notes.md || true
-              fi
-              python3 tools/release_notes.py should-build-nightly \
-                --previous-tag "$LAST_TAG" \
-                --exclude-notes previous-notes.md \
-                --latest-stable-tag "$LATEST_STABLE_TAG" \
-                --exclude-stable-notes latest-stable-notes.md \
-                >> "$GITHUB_OUTPUT"
-            fi
+            echo "tag=dispatch-${VERSION}" >> $GITHUB_OUTPUT
+            echo "version=${VERSION}" >> $GITHUB_OUTPUT
           fi
 
   build:
@@ -108,7 +76,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'schedule' && 'dev' || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
 
       - name: Install uv
@@ -150,7 +118,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'schedule' && 'dev' || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
 
       - uses: actions/download-artifact@v7
@@ -167,16 +135,7 @@ jobs:
           (cd assets && sha256sum * > checksums.txt)
 
           if [ "$IS_NIGHTLY" = "true" ]; then
-            LAST_TAG=$(git tag --list "nightly-*" --sort=-version:refname | grep -v "^$TAG$" | head -1)
-            if [ -n "$LAST_TAG" ]; then
-              gh release view "$LAST_TAG" --json body -q .body > previous-notes.md || true
-              python3 tools/release_notes.py nightly \
-                --previous-tag "$LAST_TAG" \
-                --exclude-notes previous-notes.md \
-                --output notes.md
-            else
-              python3 tools/release_notes.py nightly --output notes.md
-            fi
+            python3 tools/release_notes.py nightly --output notes.md
           else
             python3 tools/release_notes.py stable \
               --version "$TAG" --output notes.md
@@ -193,8 +152,8 @@ jobs:
           if [ "$IS_NIGHTLY" = "true" ]; then
             gh release delete "$TAG" -y --cleanup-tag 2>/dev/null || true
             gh release create "$TAG" assets/* --notes-file notes.md \
-              --title "Developer snapshot $(date -u +%Y-%m-%d)" \
-              --prerelease --target dev
+              --title "Dispatch snapshot v${VERSION}" \
+              --prerelease --target "${{ github.ref_name }}"
           else
             if gh release view "$TAG" &>/dev/null; then
               gh release upload "$TAG" assets/* --clobber
